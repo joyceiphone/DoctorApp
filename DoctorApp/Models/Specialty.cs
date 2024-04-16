@@ -15,5 +15,6 @@ namespace DoctorApp.Models
 		public DateTime DeletedDateTime { get; set; }
 		public string DeletedBy { get; set; }
 
+		public ICollection<Doctor> Doctors { get; } = new List<Doctor>();
 	}
 }

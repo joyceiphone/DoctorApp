@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace DoctorApp.Models
 {
@@ -16,5 +17,6 @@ namespace DoctorApp.Models
 		public bool IsActive { get; set; }
 		public DateTime DeletedDateTime { get; set; }
 		public string DeletedBy { get; set; }
-	}
+        public Doctor Doctor { get; set; } = null!;
+    }
 }

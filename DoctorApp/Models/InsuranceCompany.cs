@@ -23,6 +23,6 @@ namespace DoctorApp.Models
 		public bool IsActive { get; set; }
 		public DateTime DeletedDateTime { get; set; }
 		public string DeletedBy { get; set; }
-		public List<Doctor> Doctors { get; } = [];
+		public ICollection<Doctor> Doctors { get; } = [];
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
+using Microsoft.Extensions.Hosting;
 
 namespace DoctorApp.Models
 {
@@ -9,7 +11,7 @@ namespace DoctorApp.Models
         public string DrFName { get; set; }
         public string DrLName { get; set; }
         public string DrMName { get; set; }
-        public string SpecialityID { get; set; }
+        public int SpecialityID { get; set; }
         public string EmailPersonal { get; set; }
         public string EmailWork { get; set; }
         public string PersonalCell { get; set; }
@@ -20,6 +22,9 @@ namespace DoctorApp.Models
         public bool IsActive { get; set; }
         public DateTime DeletedDateTime { get; set; }
         public string DeletedBy { get; set; }
-        public List<InsuranceCompany> InsuranceCompanies {get; } = [];
+        public ICollection<InsuranceCompany> InsuranceCompanies { get; } = new List<InsuranceCompany>();
+        public ICollection<ReferralLetter> ReferralLetters { get; } = new List<ReferralLetter>();
+		public ICollection<Address> Addresses { get; } = new List<Address>();
+		public Specialty? Specialty { get; set; } = null!;
 	}
 }

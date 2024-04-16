@@ -1,0 +1,24 @@
+﻿@page
+@model DoctorApp.Pages.Doctors.IndexModel
+@{
+	ViewData["Title"] = "Doctor List";
+
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create</a>
+</p>
+
+<div>
+    <select name="specialty">
+        <option value="">Select a specialty</option>
+        <option value="1">Cardiology</option>
+        <option value="2">ENT</option>
+        <option value="3">Show All</option>
+    </select>
+</div>
+
+
+

@@ -1,0 +1,18 @@
+﻿@page
+@model DoctorApp.Pages.Doctors.CreateModel
+@{
+	ViewData["title"] = "Create";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
