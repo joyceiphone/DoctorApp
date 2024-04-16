@@ -20,6 +20,6 @@ namespace DoctorApp.Models
         [DisplayName("Contact Email")]
         public string ContactEmail { get; set; }
 
-
+        public string Note { get; set; }
     }
 }
