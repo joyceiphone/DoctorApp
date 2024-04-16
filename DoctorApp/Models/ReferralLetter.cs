@@ -6,7 +6,7 @@ namespace DoctorApp.Models
 	{
 		[Key]
 		public int ID { get; set; }
-        public int DoctorsID { get; set; }
+		public int DoctorID { get; set; }
 		public string PtAccNumber { get; set; }
 		public string FileName { get; set; }
 		public DateTime CreatedDateTime { get; set; }
