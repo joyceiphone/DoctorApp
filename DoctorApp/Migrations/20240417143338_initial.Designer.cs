@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240416201657_initial")]
+    [Migration("20240417143338_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -45,10 +45,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DoctorId")
@@ -92,7 +91,7 @@ namespace DoctorApp.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.Doctor", b =>
@@ -111,10 +110,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DrFName")
@@ -158,7 +156,7 @@ namespace DoctorApp.Migrations
 
                     b.HasIndex("SpecialityID");
 
-                    b.ToTable("Doctor");
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.InsuranceCompany", b =>
@@ -189,10 +187,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
@@ -219,7 +216,7 @@ namespace DoctorApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InsuranceCompany");
+                    b.ToTable("InsuranceCompanies");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.InsuranceCompany_Doctor", b =>
@@ -238,10 +235,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DoctorId")
@@ -266,7 +262,7 @@ namespace DoctorApp.Migrations
 
                     b.HasIndex("InsuranceCompanyId");
 
-                    b.ToTable("InsuranceCompany_Doctor");
+                    b.ToTable("InsuranceCompanies_Doctors");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.ReferralLetter", b =>
@@ -285,10 +281,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DoctorID")
@@ -316,7 +311,7 @@ namespace DoctorApp.Migrations
 
                     b.HasIndex("DoctorID");
 
-                    b.ToTable("ReferralLetter");
+                    b.ToTable("ReferralLetters");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.Specialty", b =>
@@ -335,10 +330,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DeletedDateTime")
+                    b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
@@ -357,7 +351,7 @@ namespace DoctorApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Specialty");
+                    b.ToTable("Specialties");
                 });
 
             modelBuilder.Entity("DoctorApp.Models.Address", b =>

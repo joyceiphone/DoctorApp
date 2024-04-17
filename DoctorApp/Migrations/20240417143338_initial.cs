@@ -12,7 +12,7 @@ namespace DoctorApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "InsuranceCompany",
+                name: "InsuranceCompanies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -28,16 +28,16 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InsuranceCompany", x => x.Id);
+                    table.PrimaryKey("PK_InsuranceCompanies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialty",
+                name: "Specialties",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -48,16 +48,16 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialty", x => x.Id);
+                    table.PrimaryKey("PK_Specialties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctor",
+                name: "Doctors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -74,22 +74,22 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctor", x => x.Id);
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctor_Specialty_SpecialityID",
+                        name: "FK_Doctors_Specialties_SpecialityID",
                         column: x => x.SpecialityID,
-                        principalTable: "Specialty",
+                        principalTable: "Specialties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -107,22 +107,22 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Address_Doctor_DoctorId",
+                        name: "FK_Addresses_Doctors_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctor",
+                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "InsuranceCompany_Doctor",
+                name: "InsuranceCompanies_Doctors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -134,28 +134,28 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InsuranceCompany_Doctor", x => x.Id);
+                    table.PrimaryKey("PK_InsuranceCompanies_Doctors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InsuranceCompany_Doctor_Doctor_DoctorId",
+                        name: "FK_InsuranceCompanies_Doctors_Doctors_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctor",
+                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InsuranceCompany_Doctor_InsuranceCompany_InsuranceCompanyId",
+                        name: "FK_InsuranceCompanies_Doctors_InsuranceCompanies_InsuranceCompanyId",
                         column: x => x.InsuranceCompanyId,
-                        principalTable: "InsuranceCompany",
+                        principalTable: "InsuranceCompanies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReferralLetter",
+                name: "ReferralLetters",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -168,43 +168,43 @@ namespace DoctorApp.Migrations
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReferralLetter", x => x.ID);
+                    table.PrimaryKey("PK_ReferralLetters", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ReferralLetter_Doctor_DoctorID",
+                        name: "FK_ReferralLetters_Doctors_DoctorID",
                         column: x => x.DoctorID,
-                        principalTable: "Doctor",
+                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_DoctorId",
-                table: "Address",
+                name: "IX_Addresses_DoctorId",
+                table: "Addresses",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_SpecialityID",
-                table: "Doctor",
+                name: "IX_Doctors_SpecialityID",
+                table: "Doctors",
                 column: "SpecialityID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InsuranceCompany_Doctor_DoctorId",
-                table: "InsuranceCompany_Doctor",
+                name: "IX_InsuranceCompanies_Doctors_DoctorId",
+                table: "InsuranceCompanies_Doctors",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InsuranceCompany_Doctor_InsuranceCompanyId",
-                table: "InsuranceCompany_Doctor",
+                name: "IX_InsuranceCompanies_Doctors_InsuranceCompanyId",
+                table: "InsuranceCompanies_Doctors",
                 column: "InsuranceCompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReferralLetter_DoctorID",
-                table: "ReferralLetter",
+                name: "IX_ReferralLetters_DoctorID",
+                table: "ReferralLetters",
                 column: "DoctorID");
         }
 
@@ -212,22 +212,22 @@ namespace DoctorApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "InsuranceCompany_Doctor");
+                name: "InsuranceCompanies_Doctors");
 
             migrationBuilder.DropTable(
-                name: "ReferralLetter");
+                name: "ReferralLetters");
 
             migrationBuilder.DropTable(
-                name: "InsuranceCompany");
+                name: "InsuranceCompanies");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
+                name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Specialty");
+                name: "Specialties");
         }
     }
 }

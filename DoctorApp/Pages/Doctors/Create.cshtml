@@ -8,6 +8,44 @@
 <hr />
 
 <div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="Specialties.SpecialityName" class="control-label"></label>
+				<input asp-for="Specialties.SpecialityName" class="form-control" />
+				<span asp-validation-for="Specialties.SpecialityName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.CreatedDateTime" class="control-label"></label>
+				<input asp-for="Specialties.CreatedDateTime" class="form-control" />
+				<span asp-validation-for="Specialties.CreatedDateTime" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.CreatedBy" class="control-label"></label>
+				<input asp-for="Specialties.CreatedBy" class="form-control" />
+				<span asp-validation-for="Specialties.CreatedBy" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.ModifiedDateTime" class="control-label"></label>
+				<input asp-for="Specialties.ModifiedDateTime" class="form-control" />
+				<span asp-validation-for="Specialties.ModifiedDateTime" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.ModifiedBy" class="control-label"></label>
+				<input asp-for="Specialties.ModifiedBy" class="form-control" />
+				<span asp-validation-for="Specialties.ModifiedBy" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.IsActive" class="control-label"></label>
+				<input asp-for="Specialties.IsActive" class=" form-check-input" />
+				<span asp-validation-for="Specialties.IsActive" class="text-danger"></span>
+			</div>
+			<div class="form-group mt-2">
+				<input type="submit" value="Create" class="btn btn-primary" />
+				<a class="btn btn-success" asp-page="Index">Doctor List</a>
+			</div>
+		</form>
+	</div>
 </div>
 
 @section Scripts {

@@ -2,7 +2,6 @@
 @model DoctorApp.Pages.Doctors.IndexModel
 @{
 	ViewData["Title"] = "Doctor List";
-
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -11,14 +10,50 @@
     <a asp-page="Create" class="btn btn-primary">Create</a>
 </p>
 
-<div>
-    <select name="specialty">
-        <option value="">Select a specialty</option>
-        <option value="1">Cardiology</option>
-        <option value="2">ENT</option>
-        <option value="3">Show All</option>
-    </select>
+<div class="mb-4">
+	<select name="Id" asp-items="Model.Options"></select>
 </div>
+
+<div>
+	<table class="table table-success table-striped table-responsive table-hover">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Specialities[0].Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Specialities[0].SpecialityName)
+				</th>
+				<th>
+					Action
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if(Model != null && Model.Specialities.Any())
+		{
+			@foreach (var product in Model.Specialities)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(item => product.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(item => product.SpecialityName)
+					</td>
+					<td>
+						<a asp-page="./Edit" asp-route-itemid="@product.Id" class="btn btn-primary">Edit</a>
+						<a asp-page="./Details" asp-route-itemid="@product.Id" class="btn btn-success">Details</a>
+						<a asp-page="./Delete" asp-route-itemid="@product.Id" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		</tbody>
+	</table>
+</div>
+
+
 
 
 

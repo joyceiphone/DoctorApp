@@ -8,12 +8,12 @@ namespace DoctorApp.Data
 	{
 		public DataContext(DbContextOptions<DataContext> options): base(options) { }
 
-		public DbSet<Doctor> Doctors;
-		public DbSet<InsuranceCompany> InsuranceCompanies;
-		public DbSet<InsuranceCompany_Doctor> InsuranceCompanies_Doctors;
-		public DbSet<Address> Addresses;
-		public DbSet<Specialty> Specialties;
-		public DbSet<ReferralLetter> ReferralLetters;
+		public DbSet<Doctor> Doctors { get; set; }
+		public DbSet<InsuranceCompany> InsuranceCompanies { get; set; }
+		public DbSet<InsuranceCompany_Doctor> InsuranceCompanies_Doctors { get; set; }
+		public DbSet<Address> Addresses { get; set; }
+		public DbSet<Specialty> Specialties { get; set; }
+		public DbSet<ReferralLetter> ReferralLetters { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

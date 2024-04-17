@@ -15,8 +15,8 @@ namespace DoctorApp.Models
 		public DateTime ModifiedDateTime { get; set; }
 		public string ModifiedBy { get; set; }
 		public bool IsActive { get; set; }
-		public DateTime DeletedDateTime { get; set; }
-		public string DeletedBy { get; set; }
-        public Doctor Doctor { get; set; } = null!;
+		public DateTime ? DeletedDateTime { get; set; }
+		public string ? DeletedBy { get; set; }
+		public Doctor Doctor { get; set; } = null!;
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace DoctorApp.Pages.Doctors
 {
@@ -17,22 +16,19 @@ namespace DoctorApp.Pages.Doctors
             _context = context;
         }
 
-        [BindProperty]
-        public string selectedSpecialty { get; set; }
-        public List<Doctor> Doctors { get; set; }
-        public async Task OnGetAsync()
-        {
-            var selectedItem = Request.Form["specialty"];
+        public List<SelectListItem> Options { get; set; }
+		public List<Doctor> Doctors { get; set; }
+        public List<Specialty> Specialities { get; set; }
 
-            if(selectedItem == "Show All")
-            {
-                var Doctors = await _context.Doctors.ToListAsync();
-            }
-            else
-            {
-                var Doctors = await _context.Doctors.Where(p => p.SpecialityID == selectedItem).ToListAsync();
-            }
-
-        }
+		public async Task OnGetAsync()
+		{
+			Options = await _context.Specialties.Select(a =>
+								  new SelectListItem
+								  {
+									  Value = a.Id.ToString(),
+									  Text = a.SpecialityName
+								  }).ToListAsync();
+			Specialities = await _context.Specialties.ToListAsync();
+		}
     }
 }
