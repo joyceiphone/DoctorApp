@@ -10,7 +10,7 @@ namespace DoctorApp.Models
         public int Id { get; set; }
         public string DrFName { get; set; }
         public string DrLName { get; set; }
-        public string DrMName { get; set; }
+        public string ? DrMName { get; set; }
         public int SpecialityID { get; set; }
         public string EmailPersonal { get; set; }
         public string EmailWork { get; set; }

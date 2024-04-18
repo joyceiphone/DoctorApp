@@ -1,5 +1,7 @@
+using DoctorApp;
 using DoctorApp.Data;
 using Microsoft.EntityFrameworkCore;
+using PdfSharp.Fonts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DataContext>
 	(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+GlobalFontSettings.FontResolver = new FileFontResolver();
 
 
 var app = builder.Build();

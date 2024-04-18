@@ -11,34 +11,72 @@
 	<div class="col-md-4">
 		<form method="post">
 			<div class="form-group">
-				<label asp-for="Specialties.SpecialityName" class="control-label"></label>
-				<input asp-for="Specialties.SpecialityName" class="form-control" />
-				<span asp-validation-for="Specialties.SpecialityName" class="text-danger"></span>
+				<label asp-for="Doctors.DrFName" class="control-label"></label>
+				<input asp-for="Doctors.DrFName" class="form-control" />
+				<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Specialties.CreatedDateTime" class="control-label"></label>
-				<input asp-for="Specialties.CreatedDateTime" class="form-control" />
-				<span asp-validation-for="Specialties.CreatedDateTime" class="text-danger"></span>
+				<label asp-for="Doctors.DrLName" class="control-label"></label>
+				<input asp-for="Doctors.DrLName" class="form-control" />
+				<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Specialties.CreatedBy" class="control-label"></label>
-				<input asp-for="Specialties.CreatedBy" class="form-control" />
-				<span asp-validation-for="Specialties.CreatedBy" class="text-danger"></span>
+				<label asp-for="Doctors.DrMName" class="control-label"></label>
+				<input asp-for="Doctors.DrMName" class="form-control" />
 			</div>
 			<div class="form-group">
-				<label asp-for="Specialties.ModifiedDateTime" class="control-label"></label>
-				<input asp-for="Specialties.ModifiedDateTime" class="form-control" />
-				<span asp-validation-for="Specialties.ModifiedDateTime" class="text-danger"></span>
+				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
+				<select class="form-control" name="Doctors.SpecialityID">
+				@foreach(var option in Model.Options){
+						<option value="@option.Value">@Html.DisplayFor(item => option.Text)</option>
+				}
+				</select>
+				<span asp-validation-for="Doctors.SpecialityID" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Specialties.ModifiedBy" class="control-label"></label>
-				<input asp-for="Specialties.ModifiedBy" class="form-control" />
-				<span asp-validation-for="Specialties.ModifiedBy" class="text-danger"></span>
+				<label asp-for="Doctors.EmailPersonal" class="control-label"></label>
+				<input asp-for="Doctors.EmailPersonal" class="form-control" />
+				<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Specialties.IsActive" class="control-label"></label>
-				<input asp-for="Specialties.IsActive" class=" form-check-input" />
-				<span asp-validation-for="Specialties.IsActive" class="text-danger"></span>
+				<label asp-for="Doctors.EmailWork" class="control-label"></label>
+				<input asp-for="Doctors.EmailWork" class=" form-control" />
+				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
+				<input asp-for="Doctors.PersonalCell" class=" form-control" />
+				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.EmailWork" class="control-label"></label>
+				<input asp-for="Doctors.EmailWork" class=" form-control" />
+				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.CreatedDateTime" class="control-label"></label>
+				<input asp-for="Doctors.CreatedDateTime" class=" form-control" />
+				<span asp-validation-for="Doctors.CreatedDateTime" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.CreatedBy" class="control-label"></label>
+				<input asp-for="Doctors.CreatedBy" class=" form-control" />
+				<span asp-validation-for="Doctors.CreatedBy" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.ModifiedDateTime" class="control-label"></label>
+				<input asp-for="Doctors.ModifiedDateTime" class=" form-control" />
+				<span asp-validation-for="Doctors.ModifiedDateTime" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.ModifiedBy" class="control-label"></label>
+				<input asp-for="Doctors.ModifiedBy" class=" form-control" />
+				<span asp-validation-for="Doctors.ModifiedBy" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.IsActive" class="control-label"></label>
+				<input asp-for="Doctors.IsActive" class=" form-check-input" />
+				<span asp-validation-for="Doctors.IsActive" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<input type="submit" value="Create" class="btn btn-primary" />
