@@ -1,0 +1,60 @@
+﻿@page
+@model DoctorApp.Pages.Specialties.IndexModel
+@{
+	ViewData["Title"] = "Specialty";
+}
+
+<h3>@ViewData["Title"]</h3>
+</hr>
+
+<p>
+	<a asp-page="Create" class="btn btn-primary">Create</a>
+</p>
+
+<table class="table table-success table-striped table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Specialties[0].Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Specialties[0].SpecialityName)
+			</th>
+			<th>
+				Action
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Specialties.Any())
+		{
+			@foreach (var specialty in Model.Specialties)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(item => specialty.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(item => specialty.SpecialityName)
+					</td>
+					<td>
+						<a asp-page="./Edit" asp-route-itemid="@specialty.Id" class="btn btn-primary">Edit</a>
+						<a asp-page="./Details" asp-route-itemid="@specialty.Id" class="btn btn-success">Details</a>
+						<a asp-page="./Delete" asp-route-itemid="@specialty.Id" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">
+					Specialties not available at this moment.
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+

@@ -4,15 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using PdfSharp;
 using PdfSharp.Drawing;
-using PdfSharp.Fonts;
 using PdfSharp.Pdf;
-using PdfSharp.Quality;
-using PdfSharp.Snippets.Font;
-using PdfSharp.Fonts.OpenType;
-using System.IO;
 
 
 namespace DoctorApp.Pages.Doctors
@@ -57,7 +50,7 @@ namespace DoctorApp.Pages.Doctors
 									  Id= t1.Id,
 									  DrFName = t1.DrFName,
 									  DrLName = t1.DrLName,
-									  SpecialtyName = t2.SpecialityName,
+									  SpecialityName = t2.SpecialityName,
 								  }).ToListAsync();
 		}
 
@@ -85,7 +78,7 @@ namespace DoctorApp.Pages.Doctors
 											  Id = t1.Id,
 											  DrFName = t1.DrFName,
 											  DrLName = t1.DrLName,
-											  SpecialtyName = t2.SpecialityName
+											  SpecialityName = t2.SpecialityName
 										  }).ToListAsync();
 				}
 				else
@@ -99,7 +92,7 @@ namespace DoctorApp.Pages.Doctors
 											  Id = t1.Id,
 											  DrFName = t1.DrFName,
 											  DrLName = t1.DrLName,
-											  SpecialtyName = t2.SpecialityName
+											  SpecialityName = t2.SpecialityName
 										  }).ToListAsync();
 				}
 			}
@@ -113,7 +106,7 @@ namespace DoctorApp.Pages.Doctors
 										  Id = t1.Id,
 										  DrFName = t1.DrFName,
 										  DrLName = t1.DrLName,
-										  SpecialtyName = t2.SpecialityName
+										  SpecialityName = t2.SpecialityName
 									  }).ToListAsync();
 
 				if (CheckedItems != null && CheckedItems.Any())
@@ -130,28 +123,34 @@ namespace DoctorApp.Pages.Doctors
 					// Get an XGraphics object for drawing on this page.
 					var gfx = XGraphics.FromPdfPage(page);
 
-					// Draw two lines with a red default pen.
 					var width = page.Width;
 					var height = page.Height;
-					gfx.DrawLine(XPens.Red, 0, 0, width, height);
-					gfx.DrawLine(XPens.Red, width, 0, 0, height);
-
-					// Draw a circle with a red pen which is 1.5 point thick.
-					var r = width / 5;
-					gfx.DrawEllipse(new XPen(XColors.Red, 1.5), XBrushes.White, new XRect(width / 2 - r, height / 2 - r, 2 * r, 2 * r));
 
                     var font = new XFont("Times New Roman", 12, XFontStyleEx.Bold);
-                    int y = 40;
+                    int y = 20;
 
-					foreach (var item in CheckedItems)
+                    var checkedIds = Request.Form["CheckedItems"].ToList();
+
+                    // Retrieve the details of the checked items from the database
+                    var checkedItems = await (from t1 in _context.Doctors
+                                              join t2 in _context.Specialties on t1.SpecialityID equals t2.Id
+                                              where checkedIds.Contains(t1.Id.ToString())
+                                              select new JoinedResultModel
+                                              {
+                                                  DrFName = t1.DrFName,
+                                                  DrLName = t1.DrLName,
+                                                  SpecialityName = t2.SpecialityName
+                                              }).ToListAsync();
+
+                    foreach (var item in checkedItems)
 					{
-						gfx.DrawString("Hello, PDFsharp!", font, XBrushes.Black,
-						new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+						gfx.DrawString($"Specialty: {item.SpecialityName}", font, XBrushes.Black, new XPoint(50, y));
 						y += 20;
-					}
+                        gfx.DrawString($"{item.DrFName} {item.DrLName} MD", font, XBrushes.Black, new XPoint(50, y));
+                        y += 20;
+                        y += 40;
+					};
 
-					// Save the document...
-					//var filename = PdfFileUtility.GetTempPdfFullFileName("samples/HelloWorldSample");
 					document.Save("testPdfSharp.pdf");
 
 					using (var stream = new MemoryStream())
@@ -173,7 +172,7 @@ namespace DoctorApp.Pages.Doctors
 			public int Id { get; set; }
 			public string DrFName { get; set; }
 			public string DrLName { get; set; }
-			public string SpecialtyName { get; set; }
+			public string SpecialityName { get; set; }
 		}
 	}
 }

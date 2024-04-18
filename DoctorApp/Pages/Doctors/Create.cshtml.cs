@@ -37,6 +37,9 @@ namespace DoctorApp.Pages.Doctors
 			{
 				return Page();
 			}
+
+			Doctors.ModifiedBy ="joyce";
+			Doctors.CreatedBy = "joyce";
 			_context.Doctors.Add(Doctors);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
