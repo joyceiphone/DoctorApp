@@ -1,0 +1,50 @@
+﻿@page
+@model DoctorApp.Pages.Insurance.CreateModel
+@{
+	ViewData["title"] = "Create";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.CompanyName" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.CompanyName" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.CompanyName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Department" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Department" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Telephone" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Telephone" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.ContactPerson" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.ContactPerson" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.ContactEmail" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.ContactEmail" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Note" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Note" class="form-control" />
+			</div>
+			<div class="form-group mt-2">
+				<input type="submit" value="Create" class="btn btn-primary" />
+				<a class="btn btn-success" asp-page="Index">Insurance Companies List</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

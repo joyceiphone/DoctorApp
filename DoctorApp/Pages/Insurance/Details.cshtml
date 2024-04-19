@@ -1,0 +1,42 @@
+﻿@page
+@model DoctorApp.Pages.Insurance.DetailsModel
+@{
+	ViewData["title"] = "Details";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.CompanyName" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.CompanyName" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Department" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Department" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Telephone" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Telephone" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.ContactPerson" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.ContactPerson" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.ContactEmail" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.ContactEmail" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies.Note" class="control-label"></label>
+				<input asp-for="InsuranceCompanies.Note" readonly class="form-control" />
+			</div>
+			<div class="form-group mt-2">
+				<a class="btn btn-success" asp-page="Index">Specialty List</a>
+			</div>
+		</form>
+	</div>
+</div>

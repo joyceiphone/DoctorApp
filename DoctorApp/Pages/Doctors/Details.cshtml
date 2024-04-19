@@ -1,0 +1,53 @@
+﻿@page
+@model DoctorApp.Pages.Doctors.DetailsModel
+@{
+	ViewData["title"] = "Details";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="JoinedResults.DrFName" class="control-label"></label>
+				<input asp-for="JoinedResults.DrFName" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="JoinedResults.DrLName" class="control-label"></label>
+				<input asp-for="JoinedResults.DrLName" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="JoinedResults.SpecialityName" class="control-label"></label>
+				<input asp-for="JoinedResults.SpecialityName" readonly class="form-control" />
+				<span asp-validation-for="JoinedResults.SpecialityName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="InsuranceCompanies" class="control-label"></label>
+				<div>
+				@foreach (var company in Model.InsuranceCompanies)
+				{
+					<span>@company</span> <span> </span>
+				}
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="JoinedResults.EmailPersonal" class="control-label"></label>
+				<input asp-for="JoinedResults.EmailPersonal" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="JoinedResults.EmailWork" class="control-label"></label>
+				<input asp-for="JoinedResults.EmailWork" readonly class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="JoinedResults.PersonalCell" class="control-label"></label>
+				<input asp-for="JoinedResults.PersonalCell" readonly class="form-control" />
+			</div>
+			<div class="form-group mt-2">
+				<a class="btn btn-success" asp-page="Index">Insurance Companies List</a>
+			</div>
+		</form>
+	</div>
+</div>
+

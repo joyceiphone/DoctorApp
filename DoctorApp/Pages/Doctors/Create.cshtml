@@ -25,11 +25,21 @@
 				<input asp-for="Doctors.DrMName" class="form-control" />
 			</div>
 			<div class="form-group">
+				<label asp-for="InsuranceCompaniesIds" class="control-label"></label>
+				<select placeholder="select members" id="mySelect" multiple="multiple" class="form-control" asp-for="InsuranceCompaniesIds">
+					@foreach (var item in Model.Companies)
+					{
+						<option value="@item.Value">@item.Text</option>
+					}
+				</select>
+			</div>
+			<div class="form-group">
 				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
-				<select class="form-control" name="Doctors.SpecialityID">
-				@foreach(var option in Model.Options){
+				<select id="example-multiple-selected" class="form-control" name="Doctors.SpecialityID">
+					@foreach (var option in Model.Options)
+					{
 						<option value="@option.Value">@Html.DisplayFor(item => option.Text)</option>
-				}
+					}
 				</select>
 				<span asp-validation-for="Doctors.SpecialityID" class="text-danger"></span>
 			</div>
@@ -48,16 +58,6 @@
 				<input asp-for="Doctors.PersonalCell" class=" form-control" />
 				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.EmailWork" class="control-label"></label>
-				<input asp-for="Doctors.EmailWork" class=" form-control" />
-				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.IsActive" class="control-label"></label>
-				<input asp-for="Doctors.IsActive" class=" form-check-input" />
-				<span asp-validation-for="Doctors.IsActive" class="text-danger"></span>
-			</div>
 			<div class="form-group mt-2">
 				<input type="submit" value="Create" class="btn btn-primary" />
 				<a class="btn btn-success" asp-page="Index">Doctor List</a>
@@ -70,5 +70,12 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+	<script>
+		$('#mySelect').multiselect({
+			maxHeight: 300,
+			buttonWidth: '100%',
+			placeholder: 'Select options'
+		});
+	</script>
 }
 

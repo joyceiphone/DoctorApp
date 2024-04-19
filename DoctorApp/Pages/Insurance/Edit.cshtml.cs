@@ -1,10 +1,10 @@
+using DoctorApp.Data;
+using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using DoctorApp.Models;
-using DoctorApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorApp.Pages.Specialties
+namespace DoctorApp.Pages.Insurance
 {
     public class EditModel : PageModel
     {
@@ -15,20 +15,20 @@ namespace DoctorApp.Pages.Specialties
             _context = context;
         }
         [BindProperty]
-        public Specialty Specialties{ get; set; }
+        public InsuranceCompany InsuranceCompanies { get; set; }
         public async Task<IActionResult> OnGet(int? itemid)
         {
-            if (itemid == null || _context.Specialties == null)
+            if (itemid == null || _context.InsuranceCompanies == null)
             {
                 return NotFound();
             }
-            var specialty = await _context.Specialties.FirstOrDefaultAsync(p => p.Id == itemid);
+            var insurance = await _context.InsuranceCompanies.FirstOrDefaultAsync(p => p.Id == itemid);
 
-            if (specialty == null)
+            if (insurance == null)
             {
                 return NotFound();
             }
-            Specialties = specialty;
+            InsuranceCompanies = insurance;
             return Page();
         }
 
@@ -38,9 +38,10 @@ namespace DoctorApp.Pages.Specialties
             {
                 return Page();
             }
-            Specialties.ModifiedDateTime = DateTime.Now;
-            Specialties.ModifiedBy = "test";
-            _context.Specialties.Update(Specialties);
+            InsuranceCompanies.ModifiedDateTime = DateTime.Now;
+            InsuranceCompanies.ModifiedBy = "test";
+
+            _context.InsuranceCompanies.Update(InsuranceCompanies);
             await _context.SaveChangesAsync();
             return RedirectToPage(nameof(Index));
         }

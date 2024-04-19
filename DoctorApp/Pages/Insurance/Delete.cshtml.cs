@@ -1,10 +1,10 @@
+using DoctorApp.Data;
+using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using DoctorApp.Models;
-using DoctorApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorApp.Pages.Specialties
+namespace DoctorApp.Pages.Insurance
 {
     public class DeleteModel : PageModel
     {
@@ -16,20 +16,20 @@ namespace DoctorApp.Pages.Specialties
 		}
 
 		[BindProperty]
-		public Specialty Specialties { get; set; }
+		public InsuranceCompany InsuranceCompanies { get; set; }
 		public async Task<IActionResult> OnGetAsync(int? itemid)
 		{
 			if (itemid == null)
 			{
 				return NotFound();
 			}
-			var specialty = await _context.Specialties.FirstOrDefaultAsync(p => p.Id == itemid);
+			var insurance = await _context.InsuranceCompanies.FirstOrDefaultAsync(p => p.Id == itemid);
 
-			if (specialty == null)
+			if (insurance == null)
 			{
 				return NotFound();
 			}
-			Specialties = specialty;
+			InsuranceCompanies = insurance;
 			return Page();
 		}
 		public async Task<IActionResult> OnPostAsync(int? itemid)
@@ -38,14 +38,14 @@ namespace DoctorApp.Pages.Specialties
 			{
 				return NotFound();
 			}
-			var specialty = await _context.Specialties.FindAsync(itemid);
-			if (specialty == null)
+			var insurance = await _context.InsuranceCompanies.FindAsync(itemid);
+			if (insurance == null)
 			{
 				return NotFound();
 			}
-			specialty.IsActive = true;
-			Specialties = specialty;
-			_context.Remove(specialty);
+			insurance.IsActive = true;
+			InsuranceCompanies = insurance;
+			_context.Remove(insurance);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}

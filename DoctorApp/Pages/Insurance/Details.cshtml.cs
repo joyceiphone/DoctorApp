@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorApp.Pages.Specialties
+namespace DoctorApp.Pages.Insurance
 {
-    public class DetailsModel : PageModel
-    {
+	public class DetailsModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public DetailsModel(DataContext context)
@@ -16,20 +16,20 @@ namespace DoctorApp.Pages.Specialties
 		}
 
 		[BindProperty]
-		public Specialty Specialties { get; set; }
+		public InsuranceCompany InsuranceCompanies { get; set; }
 		public async Task<IActionResult> OnGetAsync(int? itemid)
 		{
 			if (itemid == null)
 			{
 				return NotFound();
 			}
-			var specialty = await _context.Specialties.FirstOrDefaultAsync(p => p.Id == itemid);
+			var insurance = await _context.InsuranceCompanies.FirstOrDefaultAsync(p => p.Id == itemid);
 
-			if (specialty == null)
+			if (insurance == null)
 			{
 				return NotFound();
 			}
-			Specialties = specialty;
+			InsuranceCompanies = insurance;
 			return Page();
 		}
 	}

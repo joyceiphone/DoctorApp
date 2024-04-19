@@ -1,4 +1,58 @@
 ﻿@page
 @model DoctorApp.Pages.ReferralLetters.IndexModel
 @{
+	ViewData["title"] = "Issued Referral Letters";
 }
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<table class="table table-success table-striped table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].ID)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].CreatedDateTime)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].PtAccNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].FileName)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.ReferralLetters.Any())
+		{
+			@foreach (var letter in Model.ReferralLetters)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(item => letter.ID)
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.CreatedDateTime.ToString("yyyy - MM - dd"))
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.FileName)
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.PtAccNumber)
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">
+					Specialties not available at this moment.
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+

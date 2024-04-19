@@ -9,6 +9,8 @@ namespace DoctorApp.Models
 		{
 			CreatedBy = "DefaultUser";
 			ModifiedBy = "DefaultUser";
+			CreatedDateTime = DateTime.Now;
+			ModifiedDateTime = DateTime.Now;
 		}
 
 		[Key]

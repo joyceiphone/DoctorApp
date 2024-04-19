@@ -1,0 +1,57 @@
+﻿@page
+@model DoctorApp.Pages.Insurance.IndexModel
+@{
+	ViewData["title"] = "Insurance"; 
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<p>
+	<a asp-page="Create" class="btn btn-primary">Create</a>
+</p>
+
+<table class="table table-success table-striped table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.InsuranceCompanies[0].Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.InsuranceCompanies[0].CompanyName)
+			</th>
+			<th>
+				Action
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.InsuranceCompanies.Any())
+		{
+			@foreach (var insurance in Model.InsuranceCompanies)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(item => insurance.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(item => insurance.CompanyName)
+					</td>
+					<td>
+						<a asp-page="./Edit" asp-route-itemid="@insurance.Id" class="btn btn-primary">Edit</a>
+						<a asp-page="./Details" asp-route-itemid="@insurance.Id" class="btn btn-success">Details</a>
+						<a asp-page="./Delete" asp-route-itemid="@insurance.Id" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">
+					Specialties not available at this moment.
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
