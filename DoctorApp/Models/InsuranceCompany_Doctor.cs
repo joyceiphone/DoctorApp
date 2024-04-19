@@ -7,7 +7,7 @@ namespace DoctorApp.Models
 	{
 		public InsuranceCompany_Doctor()
 		{
-			CreatedBy = "DefaultUser"; // Set default value for CreatedBy
+			CreatedBy = "DefaultUser";
 			ModifiedBy = "DefaultUser";
 		}
 
@@ -16,11 +16,9 @@ namespace DoctorApp.Models
 		public int DoctorId { get; set; }
 		public int InsuranceCompanyId { get; set; }
 
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
         public string CreatedBy { get; set; }
-
-		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime ModifiedDateTime { get; set; }
         public string ModifiedBy { get; set; }
 		public bool IsActive { get; set; }

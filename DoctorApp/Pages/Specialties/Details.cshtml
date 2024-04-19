@@ -1,0 +1,28 @@
+﻿@page
+@model DoctorApp.Pages.Specialties.DetailsModel
+@{
+	ViewData["title"] = "Details";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="Specialties.SpecialityName" class="control-label"></label>
+				<input asp-for="Specialties.SpecialityName" readonly class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label asp-for="Specialties.IsActive" class="control-label"></label>
+				<input asp-for="Specialties.IsActive" disabled class=" form-check-input" />
+			</div>
+			<div class="form-group mt-2">
+				<a class="btn btn-success" asp-page="Index">Product List</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+

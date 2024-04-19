@@ -20,11 +20,9 @@ namespace DoctorApp.Models
         public string EmailWork { get; set; }
         public string PersonalCell { get; set; }
 
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
         public string CreatedBy { get; set; }
-
-		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime ModifiedDateTime { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }

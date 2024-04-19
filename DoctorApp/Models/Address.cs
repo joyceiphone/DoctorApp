@@ -20,10 +20,9 @@ namespace DoctorApp.Models
 		public string State { get; set; }
 		public string TelAddress { get; set; }
 		public string FaxAddress { get; set; }
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
         public string CreatedBy { get; set; }
-		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime ModifiedDateTime { get; set; }
         public string ModifiedBy { get; set; }
 		public bool IsActive { get; set; }
