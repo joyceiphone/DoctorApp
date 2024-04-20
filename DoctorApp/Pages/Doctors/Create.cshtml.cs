@@ -21,9 +21,11 @@ namespace DoctorApp.Pages.Doctors
 		public List<SelectListItem> Options { get; set; }
 
 		public List<SelectListItem> Companies { get; set; }
-		[BindProperty]
-		public List<int> InsuranceCompaniesIds { get; set; }
+
 		public List<InsuranceCompany_Doctor> InsuranceCompany_Doctors { get; set; }
+
+		[BindProperty]
+		public Address Addresses { get; set; }
 
 		public async Task OnGetAsync()
 		{
@@ -56,11 +58,13 @@ namespace DoctorApp.Pages.Doctors
 
 			int newDoctorId = Doctors.Id;
 
-			foreach (var id in InsuranceCompaniesIds)
+			var checkedCompanies = Request.Form["CheckedCompanies"].ToList();
+
+			foreach (var id in checkedCompanies)
 			{
 				var insuranceCompanyDoctor = new InsuranceCompany_Doctor
 				{
-					InsuranceCompanyId = id,
+					InsuranceCompanyId = Convert.ToInt32(id),
 					DoctorId = newDoctorId,
 
 				};
@@ -72,6 +76,10 @@ namespace DoctorApp.Pages.Doctors
 				_context.InsuranceCompanies_Doctors.Add(insuranceCompanyDoctor);
 				await _context.SaveChangesAsync();
 			}
+
+			Addresses.DoctorId = newDoctorId;
+			_context.Addresses.Add(Addresses);
+			await _context.SaveChangesAsync();
 
 			return RedirectToPage(nameof(Index));
 		}

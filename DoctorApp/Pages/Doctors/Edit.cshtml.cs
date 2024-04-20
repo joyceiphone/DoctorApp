@@ -1,4 +1,3 @@
-using System.Linq;
 using DoctorApp.Data;
 using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,8 @@ namespace DoctorApp.Pages.Doctors
 		[BindProperty]
 		public int DoctorId { get; set; }
 		[BindProperty]
+		public int AddressId { get; set; }
+		[BindProperty]
 		public Doctor Doctors { get; set; }
 		[BindProperty]
 		public List<SelectListItem> Options { get; set; }
@@ -26,6 +27,9 @@ namespace DoctorApp.Pages.Doctors
 		[BindProperty]
 		public List<SelectListItem> Companies { get; set; }
 		public List<String> InsuranceCompanies { get; set; }
+
+		[BindProperty]
+		public Address Addresses { get; set; }
 
 		public List<InsuranceCompany_Doctor> InsuranceCompanies_Doctors { get; set; }
 		public JoinedResult JoinedResults { get; set; }
@@ -73,10 +77,16 @@ namespace DoctorApp.Pages.Doctors
 						  Text = a.CompanyName
 					  }).ToListAsync();
 
+			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
+			if(Addresses != null)
+			{
+				AddressId = Addresses.Id;
+			}
+
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPost()
+		public async Task<IActionResult> OnPost(int ? itemid)
 		{
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
@@ -89,7 +99,6 @@ namespace DoctorApp.Pages.Doctors
 			Doctors.ModifiedDateTime = DateTime.Now;
 			Doctors.IsActive = false;
 			_context.Doctors.Update(Doctors);
-			await _context.SaveChangesAsync();
 
 			// Get the list of checked insurance companies
 			var checkedCompanies = Request.Form["CheckedCompanies"].ToList();
@@ -122,6 +131,19 @@ namespace DoctorApp.Pages.Doctors
 					DoctorId = DoctorId,
 					InsuranceCompanyId = Convert.ToInt32(companyId)
 				});
+			}
+
+			if (AddressId != 0)
+			{
+				Addresses.Id = AddressId;
+				Addresses.DoctorId = DoctorId;
+				Addresses.ModifiedDateTime = DateTime.Now;
+				_context.Addresses.Update(Addresses);
+			}
+			else
+			{
+				Addresses.DoctorId = DoctorId;
+				_context.Addresses.Add(Addresses);
 			}
 
 			await _context.SaveChangesAsync();

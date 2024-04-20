@@ -23,6 +23,9 @@ namespace DoctorApp.Pages.Doctors
 
 		public JoinedResult JoinedResults { get; set; }
 
+		[BindProperty]
+		public Address Addresses { get; set; }
+
 		public async Task<IActionResult> OnGetAsync(int? itemid)
 		{
 			if (itemid == null)
@@ -55,6 +58,7 @@ namespace DoctorApp.Pages.Doctors
 				return NotFound();
 			}
 
+			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
 			JoinedResults = doctor;
 			return Page();
 		}
@@ -72,13 +76,22 @@ namespace DoctorApp.Pages.Doctors
 			doctor.IsActive = true;
 			Doctors = doctor;
 			_context.Doctors.Remove(Doctors);
-			await _context.SaveChangesAsync();
 
 			var insuranceCompanyDoctors = await _context.InsuranceCompanies_Doctors
 				.Where(p => p.DoctorId == itemid)
 				.ToListAsync();
 
 			_context.InsuranceCompanies_Doctors.RemoveRange(insuranceCompanyDoctors);
+
+			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
+
+			if(Addresses != null)
+			{
+				Addresses.DeletedDateTime = DateTime.Now;
+				Addresses.IsActive = true;
+				_context.Addresses.Remove(Addresses);
+			}
+
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}

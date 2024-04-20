@@ -2,12 +2,7 @@ using DoctorApp.Data;
 using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DoctorApp.Pages.Doctors
 {
@@ -22,6 +17,9 @@ namespace DoctorApp.Pages.Doctors
 
 		[BindProperty]
 		public Doctor Doctors { get; set; }
+
+		[BindProperty]
+		public Address Addresses { get; set; }
 		public List<string> InsuranceCompanies { get; set; } // Declare InsuranceCompanies property
 
 		public JoinedResult JoinedResults { get; set; }
@@ -59,6 +57,8 @@ namespace DoctorApp.Pages.Doctors
 										select t3.CompanyName).ToListAsync();
 
 			JoinedResults = doctor; // Assign the doctor to the JoinedResult property
+
+			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
 			return Page();
 		}
 	}
