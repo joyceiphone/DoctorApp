@@ -2,6 +2,7 @@ using DoctorApp.Data;
 using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace DoctorApp.Pages.Doctors
 		}
 	}
 
-	// Define JoinedResultModel outside of DetailsModel class
+	// Define JoinedResultModel
 	public class JoinedResult
 	{
 		public int Id { get; set; }

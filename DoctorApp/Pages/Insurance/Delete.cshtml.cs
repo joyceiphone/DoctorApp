@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.Insurance
 {
-    public class DeleteModel : PageModel
-    {
+	public class DeleteModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public DeleteModel(DataContext context)

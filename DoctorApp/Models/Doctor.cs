@@ -27,9 +27,9 @@ namespace DoctorApp.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
         public DateTime ? DeletedDateTime { get; set; }
-        public string ? DeletedBy { get; set; }
+        public string? DeletedBy { get; set; }
         public ICollection<InsuranceCompany> InsuranceCompanies { get; } = new List<InsuranceCompany>();
-        public ICollection<ReferralLetter> ReferralLetters { get; } = new List<ReferralLetter>();
+		public ICollection<ReferralLetter> ReferralLetters { get; } = new List<ReferralLetter>();
         public ICollection<Address> Addresses { get; } = new List<Address>();
         public Specialty? Specialty { get; set; } = null!;
 	}

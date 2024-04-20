@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.Doctors
 {
-    public class CreateModel : PageModel
-    {
+	public class CreateModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public CreateModel(DataContext context)
@@ -48,7 +48,7 @@ namespace DoctorApp.Pages.Doctors
 				return Page();
 			}
 
-			Doctors.ModifiedBy ="joyce";
+			Doctors.ModifiedBy = "joyce";
 			Doctors.CreatedBy = "joyce";
 			Doctors.IsActive = false;
 			_context.Doctors.Add(Doctors);
@@ -56,7 +56,7 @@ namespace DoctorApp.Pages.Doctors
 
 			int newDoctorId = Doctors.Id;
 
-			foreach(var id in InsuranceCompaniesIds)
+			foreach (var id in InsuranceCompaniesIds)
 			{
 				var insuranceCompanyDoctor = new InsuranceCompany_Doctor
 				{
@@ -65,11 +65,15 @@ namespace DoctorApp.Pages.Doctors
 
 				};
 
+				insuranceCompanyDoctor.ModifiedBy = "joyce";
+				insuranceCompanyDoctor.CreatedBy = "joyce";
+				insuranceCompanyDoctor.IsActive = false;
+
 				_context.InsuranceCompanies_Doctors.Add(insuranceCompanyDoctor);
 				await _context.SaveChangesAsync();
 			}
 
 			return RedirectToPage(nameof(Index));
 		}
-    }
+	}
 }

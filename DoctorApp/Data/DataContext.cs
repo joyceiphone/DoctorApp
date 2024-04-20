@@ -4,9 +4,9 @@ using System.Reflection.Metadata;
 
 namespace DoctorApp.Data
 {
-	public class DataContext: DbContext
+	public class DataContext : DbContext
 	{
-		public DataContext(DbContextOptions<DataContext> options): base(options) { }
+		public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
 		public DbSet<Doctor> Doctors { get; set; }
 		public DbSet<InsuranceCompany> InsuranceCompanies { get; set; }
@@ -87,10 +87,10 @@ namespace DoctorApp.Data
 
 			//one to many
 			modelBuilder.Entity<Doctor>()
-                .HasMany(e => e.ReferralLetters)
+				.HasMany(e => e.ReferralLetters)
 				.WithOne(e => e.Doctor)
 				.HasForeignKey(e => e.DoctorID)
 				.IsRequired();
-        }
+		}
 	}
 }

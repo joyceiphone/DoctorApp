@@ -6,8 +6,8 @@ using DoctorApp.Data;
 
 namespace DoctorApp.Pages.Insurance
 {
-    public class CreateModel : PageModel
-    {
+	public class CreateModel : PageModel
+	{
 		private readonly DataContext _context;
 		public CreateModel(DataContext context)
 		{

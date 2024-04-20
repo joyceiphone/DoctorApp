@@ -1,0 +1,85 @@
+﻿@page
+@model DoctorApp.Pages.Doctors.EditModel
+@{
+	ViewData["title"] = "Edit";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<input type="hidden" asp-for="DoctorId" />
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.DrFName" class="control-label"></label>
+				<input asp-for="Doctors.DrFName" class="form-control" />
+				<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.DrLName" class="control-label"></label>
+				<input asp-for="Doctors.DrLName" class="form-control" />
+				<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Companies" class="control-label">Insurance Companies</label>
+				<select id="mySelect" name="CheckedCompanies" multiple="multiple" class="form-control">
+					@foreach (var item in Model.Companies)
+					{
+						<option value="@item.Value" selected="@(Model.InsuranceCompanies.Contains(item.Text))">@item.Text</option>
+					}
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
+				<select asp-for="Doctors.SpecialityID" class="form-control" name="Doctors.SpecialityID">
+					@foreach (var option in Model.Options)
+					{
+						<option value="@option.Value">@option.Text</option>
+                    }
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.EmailPersonal" class="control-label"></label>
+				<input asp-for="Doctors.EmailPersonal" class="form-control" />
+				<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.EmailWork" class="control-label"></label>
+				<input asp-for="Doctors.EmailWork" class=" form-control" />
+				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
+				<input asp-for="Doctors.PersonalCell" class=" form-control" />
+				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
+			</div>
+			<div class="form-group mt-2">
+				<input type="submit" value="Edit" class="btn btn-primary" />
+				<a class="btn btn-success" asp-page="Index">Doctor List</a>
+			</div>
+		</form>
+		@foreach (var key in ViewData.ModelState.Keys)
+		{
+			foreach (var error in ViewData.ModelState[key].Errors)
+			{
+				<div>@error.ErrorMessage</div>
+			}
+		}
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script>
+		$('#mySelect').multiselect({
+			maxHeight: 300,
+			buttonWidth: '100%',
+			placeholder: 'Select options'
+		});
+	</script>
+}
