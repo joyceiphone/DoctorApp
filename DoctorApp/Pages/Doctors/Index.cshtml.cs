@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using PdfSharp.Pdf.Advanced;
 
 
 namespace DoctorApp.Pages.Doctors
@@ -116,19 +117,6 @@ namespace DoctorApp.Pages.Doctors
 					document.Info.Title = "Created with PDFsharp";
 					document.Info.Subject = "Just a simple Hello-World program.";
 
-					// Create an empty page in this document.
-					var page = document.AddPage();
-					//page.Size = PageSize.Letter;
-
-					// Get an XGraphics object for drawing on this page.
-					var gfx = XGraphics.FromPdfPage(page);
-
-					var width = page.Width;
-					var height = page.Height;
-
-                    var font = new XFont("Times New Roman", 12, XFontStyleEx.Bold);
-                    int y = 20;
-
                     var checkedIds = Request.Form["CheckedItems"].ToList();
 
                     // Retrieve the details of the checked items from the database
@@ -144,11 +132,31 @@ namespace DoctorApp.Pages.Doctors
 
                     foreach (var item in checkedItems)
 					{
+						// Create an empty page in this document.
+						var page = document.AddPage();
+						//page.Size = PageSize.Letter;
+
+						// Get an XGraphics object for drawing on this page.
+						var gfx = XGraphics.FromPdfPage(page);
+
+						XPen lineBlack = new XPen(XColors.Black, 2);
+						// Define the starting and ending points of the line
+						double startX = 50; // X-coordinate of the starting point
+						double endX = page.Width - 50; // X-coordinate of the ending point
+						double y = 40; // Y-coordinate of the line
+
+						// Draw the horizontal line
+						gfx.DrawLine(lineBlack, startX, y, endX, y);
+
+						var height = page.Height;
+
+						var font = new XFont("Times New Roman", 12, XFontStyleEx.Bold);
+						y += 20;
+
 						gfx.DrawString($"Specialty: {item.SpecialityName}", font, XBrushes.Black, new XPoint(50, y));
 						y += 20;
                         gfx.DrawString($"{item.DrFName} {item.DrLName} MD", font, XBrushes.Black, new XPoint(50, y));
                         y += 20;
-                        y += 40;
 					};
 
 					document.Save("testPdfSharp.pdf");
