@@ -19,12 +19,12 @@ namespace DoctorApp.Models
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
-        public string CreatedBy { get; set; }
+		public string CreatedBy { get; set; }
 		public DateTime ModifiedDateTime { get; set; }
 		public string ModifiedBy { get; set; }
 		public bool IsActive { get; set; }
-		public DateTime ? DeletedDateTime { get; set; }
-		public string ? DeletedBy { get; set; }
+		public DateTime? DeletedDateTime { get; set; }
+		public string? DeletedBy { get; set; }
 		public Doctor Doctor { get; set; } = null!;
-    }
+	}
 }

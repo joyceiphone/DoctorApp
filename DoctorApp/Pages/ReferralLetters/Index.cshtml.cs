@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.ReferralLetters
 {
-    public class IndexModel : PageModel
-    {
+	public class IndexModel : PageModel
+	{
 		private readonly DataContext _context;
 		public IndexModel(DataContext context)
 		{

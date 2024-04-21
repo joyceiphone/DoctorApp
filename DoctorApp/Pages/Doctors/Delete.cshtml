@@ -5,7 +5,7 @@
 }
 
 <h3>@ViewData["title"]</h3>
-<hr/>
+<hr />
 
 <div class="row">
 	<div class="col-md-4">
@@ -31,9 +31,9 @@
 					}
 				</div>
 			</div>
-			@if(Model != null && Model.Addresses.Any())
+			@if (Model != null && Model.Addresses.Any())
 			{
-				@foreach(var address in Model.Addresses)
+				@foreach (var address in Model.Addresses)
 				{
 					<div class="form-group">
 						<label asp-for="@address.Street1" class="control-label"></label>

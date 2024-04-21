@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DoctorApp.Pages.Specialties
 {
-    public class CreateModel : PageModel
-    {
+	public class CreateModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public CreateModel(DataContext context)

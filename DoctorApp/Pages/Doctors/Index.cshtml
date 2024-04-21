@@ -1,85 +1,85 @@
 ﻿@page
 @model DoctorApp.Pages.Doctors.IndexModel
 @{
-    ViewData["Title"] = "Doctors";
+	ViewData["Title"] = "Doctors";
 }
 
 <h3>@ViewData["Title"]</h3>
 
 <p>
-    <a asp-page="Create" class="btn btn-primary">Create</a>
+	<a asp-page="Create" class="btn btn-primary">Create</a>
 </p>
 
 <form method="post">
-    <div class="mb-4 d-flex">
-        <select class="form-select form-select-sm" asp-for="selectedId" asp-items="Model.Options">
-        </select>
-        <button class="primary mx-2 btn btn-primary" name="command" value="FilterAction" type="submit">Filter</button>
-    </div>
+	<div class="mb-4 d-flex">
+		<select class="form-select form-select-sm" asp-for="selectedId" asp-items="Model.Options">
+		</select>
+		<button class="primary mx-2 btn btn-primary" name="command" value="FilterAction" type="submit">Filter</button>
+	</div>
 
-    <div>
-        <table class="table table-success table-striped table-responsive table-hover full-width-table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Doctors[0].Id)
-                    </th>
-                    <th>
-                        CheckBox
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Doctors[0].DrFName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Doctors[0].DrLName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Doctors[0].Specialty)
-                    </th>
-                    <th>
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.JoinedResult.Any())
-                {
-                    foreach (var doctor in Model.JoinedResult)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(item => doctor.Id)
-                            </td>
-                            <td>
-                                <!-- Use the for attribute to associate the checkbox with the property -->
-                                <div class="form-check">
-                                    <input class="form-check-input" name="CheckedItems" type="checkbox" value="@doctor.Id">
-                                </div>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(item => doctor.DrFName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(item => doctor.DrLName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(item => doctor.SpecialityName)
-                            </td>
-                            <td>
-                                <a asp-page="./Edit" asp-route-itemid="@doctor.Id" class="btn btn-primary">Edit</a>
-                                <a asp-page="./Details" asp-route-itemid="@doctor.Id" class="btn btn-success">Details</a>
-                                <a asp-page="./Delete" asp-route-itemid="@doctor.Id" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+	<div>
+		<table class="table table-success table-striped table-responsive table-hover full-width-table">
+			<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Doctors[0].Id)
+					</th>
+					<th>
+						CheckBox
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Doctors[0].DrFName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Doctors[0].DrLName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Doctors[0].Specialty)
+					</th>
+					<th>
+						Action
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model != null && Model.JoinedResult.Any())
+				{
+					foreach (var doctor in Model.JoinedResult)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(item => doctor.Id)
+							</td>
+							<td>
+								<!-- Use the for attribute to associate the checkbox with the property -->
+								<div class="form-check">
+									<input class="form-check-input" name="CheckedItems" type="checkbox" value="@doctor.Id">
+								</div>
+							</td>
+							<td>
+								@Html.DisplayFor(item => doctor.DrFName)
+							</td>
+							<td>
+								@Html.DisplayFor(item => doctor.DrLName)
+							</td>
+							<td>
+								@Html.DisplayFor(item => doctor.SpecialityName)
+							</td>
+							<td>
+								<a asp-page="./Edit" asp-route-itemid="@doctor.Id" class="btn btn-primary">Edit</a>
+								<a asp-page="./Details" asp-route-itemid="@doctor.Id" class="btn btn-success">Details</a>
+								<a asp-page="./Delete" asp-route-itemid="@doctor.Id" class="btn btn-danger">Delete</a>
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
 
-        <hr />
-        <!-- Ensure the Print button is within the form -->
-        <p>
-            <button type="submit" name="command" value="PrintCheckedItems" class="btn btn-primary">Print</button>
-        </p>
-    </div>
+		<hr />
+		<!-- Ensure the Print button is within the form -->
+		<p>
+			<button type="submit" name="command" value="PrintCheckedItems" class="btn btn-primary">Print</button>
+		</p>
+	</div>
 </form>

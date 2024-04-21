@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.Doctors
 {
-    public class EditModel : PageModel
-    {
+	public class EditModel : PageModel
+	{
 		private readonly DataContext _context;
 		public EditModel(DataContext context)
 		{
@@ -59,7 +59,7 @@ namespace DoctorApp.Pages.Doctors
 						  Text = a.SpecialityName
 					  }).ToListAsync();
 
-            InsuranceCompanies = await (from t1 in _context.Doctors
+			InsuranceCompanies = await (from t1 in _context.Doctors
 										join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
 										join t3 in _context.InsuranceCompanies on t2.InsuranceCompanyId equals t3.Id
 										where t1.Id == itemid
@@ -78,7 +78,7 @@ namespace DoctorApp.Pages.Doctors
 					  }).ToListAsync();
 
 			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
-			if(Addresses != null)
+			if (Addresses != null)
 			{
 				AddressId = Addresses.Id;
 			}
@@ -86,7 +86,7 @@ namespace DoctorApp.Pages.Doctors
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPost(int ? itemid)
+		public async Task<IActionResult> OnPost(int? itemid)
 		{
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{

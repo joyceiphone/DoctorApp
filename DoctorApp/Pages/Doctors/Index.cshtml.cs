@@ -6,31 +6,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
 
 
 namespace DoctorApp.Pages.Doctors
 {
-    public class IndexModel : PageModel
-    {
-        private readonly DataContext _context;
+	public class IndexModel : PageModel
+	{
+		private readonly DataContext _context;
 
-        public IndexModel(DataContext context)
-        {
-            _context = context;
-        }
+		public IndexModel(DataContext context)
+		{
+			_context = context;
+		}
 
-        public List<SelectListItem> Options { get; set; }
+		public List<SelectListItem> Options { get; set; }
 		public List<Doctor> Doctors { get; set; }
-        public List<Specialty> Specialities { get; set; }
+		public List<Specialty> Specialities { get; set; }
 		public List<JoinedResultModel> JoinedResult { get; set; }
 
 
 		[BindProperty]
 		public int selectedId { get; set; }
 
-        [BindProperty]
-        public List<string> CheckedItems { get; set; }
+		[BindProperty]
+		public List<string> CheckedItems { get; set; }
 
 		public async Task OnGetAsync()
 		{
@@ -48,7 +47,7 @@ namespace DoctorApp.Pages.Doctors
 								  on t1.SpecialityID equals t2.Id
 								  select new JoinedResultModel
 								  {
-									  Id= t1.Id,
+									  Id = t1.Id,
 									  DrFName = t1.DrFName,
 									  DrLName = t1.DrLName,
 									  SpecialityName = t2.SpecialityName,
@@ -97,7 +96,7 @@ namespace DoctorApp.Pages.Doctors
 										  }).ToListAsync();
 				}
 			}
-			if(command == "PrintCheckedItems")
+			if (command == "PrintCheckedItems")
 			{
 				JoinedResult = await (from t1 in _context.Doctors
 									  join t2 in _context.Specialties
@@ -112,12 +111,12 @@ namespace DoctorApp.Pages.Doctors
 
 				if (CheckedItems != null && CheckedItems.Any())
 				{
-                    // Create a new PDF document.
-                    var document = new PdfDocument();
+					// Create a new PDF document.
+					var document = new PdfDocument();
 					document.Info.Title = "Created with PDFsharp";
 					document.Info.Subject = "Just a simple Hello-World program.";
 
-                    var checkedIds = Request.Form["CheckedItems"].ToList();
+					var checkedIds = Request.Form["CheckedItems"].ToList();
 
 					// Retrieve the details of the checked items from the database
 					var checkedItems = await (from t1 in _context.Doctors
@@ -158,13 +157,16 @@ namespace DoctorApp.Pages.Doctors
 
 						gfx.DrawString($"Specialty: {item.SpecialityName}", font, XBrushes.Black, new XPoint(50, y));
 						y += 40;
-                        gfx.DrawString($"{item.DrFName} {item.DrLName} MD", font, XBrushes.Black, new XPoint(50, y));
-                        y += 40;
+						gfx.DrawString($"{item.DrFName} {item.DrLName} MD", font, XBrushes.Black, new XPoint(50, y));
+						y += 40;
 
-						foreach(var address in item.Addresses)
+						if(item.Addresses != null )
 						{
-							gfx.DrawString($"{address.Street1} {address.Street2} {address.City} {address.State} {address.ZipCode} {address.TelAddress}", font, XBrushes.Black, new XPoint(50, y));
-							y += 40;
+							foreach (var address in item.Addresses)
+							{
+								gfx.DrawString($"{address.Street1} {address.Street2} {address.City} {address.State} {address.ZipCode} {address.TelAddress}", font, XBrushes.Black, new XPoint(50, y));
+								y += 40;
+							}
 						}
 					};
 
@@ -189,7 +191,7 @@ namespace DoctorApp.Pages.Doctors
 			public int Id { get; set; }
 			public string DrFName { get; set; }
 			public string DrLName { get; set; }
-			public string SpecialityName { get; set; }			
+			public string SpecialityName { get; set; }
 			public List<Address> Addresses { get; set; }
 		}
 	}

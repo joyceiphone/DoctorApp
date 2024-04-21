@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.Doctors
 {
-    public class DeleteModel : PageModel
-    {
+	public class DeleteModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public DeleteModel(DataContext context)
@@ -53,7 +53,7 @@ namespace DoctorApp.Pages.Doctors
 									PersonalCell = t1.PersonalCell
 								}).FirstOrDefaultAsync();
 
-			if(doctor == null)
+			if (doctor == null)
 			{
 				return NotFound();
 			}
@@ -85,9 +85,9 @@ namespace DoctorApp.Pages.Doctors
 
 			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
 
-			if(Addresses != null)
+			if (Addresses != null)
 			{
-				foreach(var address in Addresses)
+				foreach (var address in Addresses)
 				{
 					address.DeletedDateTime = DateTime.Now;
 					address.IsActive = true;

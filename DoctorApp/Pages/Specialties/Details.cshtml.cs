@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorApp.Pages.Specialties
 {
-    public class DetailsModel : PageModel
-    {
+	public class DetailsModel : PageModel
+	{
 		private readonly DataContext _context;
 
 		public DetailsModel(DataContext context)
