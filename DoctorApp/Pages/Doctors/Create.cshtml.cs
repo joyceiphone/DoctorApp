@@ -78,6 +78,7 @@ namespace DoctorApp.Pages.Doctors
 			}
 
 			Addresses.DoctorId = newDoctorId;
+			Addresses.IsActive = true;
 			_context.Addresses.Add(Addresses);
 			await _context.SaveChangesAsync();
 
