@@ -81,7 +81,14 @@ namespace DoctorApp.Pages.Doctors
 				.Where(p => p.DoctorId == itemid)
 				.ToListAsync();
 
-			_context.InsuranceCompanies_Doctors.RemoveRange(insuranceCompanyDoctors);
+			if(insuranceCompanyDoctors != null)
+			{
+				foreach(var companyDoctor in insuranceCompanyDoctors)
+				{
+					companyDoctor.IsActive = true;
+				}
+				_context.InsuranceCompanies_Doctors.RemoveRange(insuranceCompanyDoctors);
+			}
 
 			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
 

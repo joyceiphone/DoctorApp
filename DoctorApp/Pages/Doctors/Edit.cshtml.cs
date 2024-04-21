@@ -117,6 +117,7 @@ namespace DoctorApp.Pages.Doctors
 					.FirstOrDefaultAsync(ic => ic.DoctorId == DoctorId && ic.InsuranceCompanyId.ToString() == companyId);
 				if (rowToDelete != null)
 				{
+					rowToDelete.IsActive = true;
 					_context.InsuranceCompanies_Doctors.Remove(rowToDelete);
 				}
 			}
@@ -129,7 +130,8 @@ namespace DoctorApp.Pages.Doctors
 				{
 
 					DoctorId = DoctorId,
-					InsuranceCompanyId = Convert.ToInt32(companyId)
+					InsuranceCompanyId = Convert.ToInt32(companyId),
+					IsActive = false
 				});
 			}
 
@@ -143,6 +145,7 @@ namespace DoctorApp.Pages.Doctors
 			else
 			{
 				Addresses.DoctorId = DoctorId;
+				Addresses.IsActive = false;
 				_context.Addresses.Add(Addresses);
 			}
 
