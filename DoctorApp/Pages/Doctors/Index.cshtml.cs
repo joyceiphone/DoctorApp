@@ -119,18 +119,21 @@ namespace DoctorApp.Pages.Doctors
 
                     var checkedIds = Request.Form["CheckedItems"].ToList();
 
-                    // Retrieve the details of the checked items from the database
-                    var checkedItems = await (from t1 in _context.Doctors
-                                              join t2 in _context.Specialties on t1.SpecialityID equals t2.Id
-                                              where checkedIds.Contains(t1.Id.ToString())
-                                              select new JoinedResultModel
-                                              {
-                                                  DrFName = t1.DrFName,
-                                                  DrLName = t1.DrLName,
-                                                  SpecialityName = t2.SpecialityName
-                                              }).ToListAsync();
+					// Retrieve the details of the checked items from the database
+					var checkedItems = await (from t1 in _context.Doctors
+											  join t2 in _context.Specialties on t1.SpecialityID equals t2.Id
+											  join t3 in _context.Addresses on t1.Id equals t3.DoctorId into addresses
+											  where checkedIds.Contains(t1.Id.ToString())
+											  select new JoinedResultModel
+											  {
+												  Id = t1.Id,
+												  DrFName = t1.DrFName,
+												  DrLName = t1.DrLName,
+												  SpecialityName = t2.SpecialityName,
+												  Addresses = addresses.Any() ? addresses.ToList() : null,
+											  }).ToListAsync();
 
-                    foreach (var item in checkedItems)
+					foreach (var item in checkedItems)
 					{
 						// Create an empty page in this document.
 						var page = document.AddPage();
@@ -151,12 +154,18 @@ namespace DoctorApp.Pages.Doctors
 						var height = page.Height;
 
 						var font = new XFont("Times New Roman", 12, XFontStyleEx.Bold);
-						y += 20;
+						y += 40;
 
 						gfx.DrawString($"Specialty: {item.SpecialityName}", font, XBrushes.Black, new XPoint(50, y));
-						y += 20;
+						y += 40;
                         gfx.DrawString($"{item.DrFName} {item.DrLName} MD", font, XBrushes.Black, new XPoint(50, y));
-                        y += 20;
+                        y += 40;
+
+						foreach(var address in item.Addresses)
+						{
+							gfx.DrawString($"{address.Street1} {address.Street2} {address.City} {address.State} {address.ZipCode} {address.TelAddress}", font, XBrushes.Black, new XPoint(50, y));
+							y += 40;
+						}
 					};
 
 					document.Save("testPdfSharp.pdf");
@@ -180,7 +189,8 @@ namespace DoctorApp.Pages.Doctors
 			public int Id { get; set; }
 			public string DrFName { get; set; }
 			public string DrLName { get; set; }
-			public string SpecialityName { get; set; }
+			public string SpecialityName { get; set; }			
+			public List<Address> Addresses { get; set; }
 		}
 	}
 }
