@@ -16,16 +16,16 @@ namespace DoctorApp.Models
 		public string DrLName { get; set; }
 		public string? DrMName { get; set; }
 		public int SpecialityID { get; set; }
-		public string EmailPersonal { get; set; }
-		public string EmailWork { get; set; }
-		public string PersonalCell { get; set; }
+		public string? EmailPersonal { get; set; }
+		public string? EmailWork { get; set; }
+		public string? PersonalCell { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
 		public string CreatedBy { get; set; }
 		public DateTime ModifiedDateTime { get; set; }
 		public string ModifiedBy { get; set; }
-		public bool IsActive { get; set; }
+		public bool? IsActive { get; set; }
 		public DateTime? DeletedDateTime { get; set; }
 		public string? DeletedBy { get; set; }
 		public ICollection<InsuranceCompany> InsuranceCompanies { get; } = new List<InsuranceCompany>();

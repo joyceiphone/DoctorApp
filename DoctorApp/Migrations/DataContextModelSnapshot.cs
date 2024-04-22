@@ -53,10 +53,9 @@ namespace DoctorApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FaxAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -77,7 +76,6 @@ namespace DoctorApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TelAddress")
@@ -130,14 +128,12 @@ namespace DoctorApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailPersonal")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailWork")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -150,7 +146,6 @@ namespace DoctorApp.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("PersonalCell")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SpecialityID")
@@ -199,7 +194,7 @@ namespace DoctorApp.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -251,7 +246,7 @@ namespace DoctorApp.Migrations
                     b.Property<int>("InsuranceCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -302,7 +297,7 @@ namespace DoctorApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -348,7 +343,7 @@ namespace DoctorApp.Migrations
                     b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")

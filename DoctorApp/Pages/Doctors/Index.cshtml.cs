@@ -170,7 +170,10 @@ namespace DoctorApp.Pages.Doctors
 						}
 					};
 
-					document.Save("testPdfSharp.pdf");
+					string tempPath = Path.Combine(Path.GetTempPath(), "testPdfSharp.pdf");
+					document.Save(tempPath);
+
+					Console.WriteLine("PDF saved to: " + tempPath);
 
 					using (var stream = new MemoryStream())
 					{

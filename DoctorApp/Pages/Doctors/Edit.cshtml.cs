@@ -159,8 +159,6 @@ namespace DoctorApp.Pages.Doctors
 		{
 			public int Id { get; set; }
 			public string DrFName { get; set; }
-
-			public int SpecialtyId { get; set; }
 			public string DrLName { get; set; }
 			public string SpecialityName { get; set; }
 			public string EmailPersonal { get; set; }
