@@ -25,9 +25,13 @@
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies" class="control-label"></label>
 				<div>
-					@foreach (var company in Model.InsuranceCompanies)
+					@for (int i = 0; i < Model.InsuranceCompanies.Count; i++)
 					{
-						<span><b>@company</b></span> <span> </span>
+						<span><b>@Model.InsuranceCompanies[i]</b></span>
+						@if (i < Model.InsuranceCompanies.Count - 1)
+						{
+							<span><b>,</b> </span>
+						}
 					}
 				</div>
 			</div>
