@@ -8,32 +8,31 @@
 <hr />
 
 <div class="row">
-	<div class="col-md-4">
-		<form method="post">
-			<div class="form-group">
+	<form method="post">
+		<div class="row">
+			<div class="form-group col-4">
 				<label asp-for="Doctors.DrFName" class="control-label"></label>
 				<input asp-for="Doctors.DrFName" class="form-control" />
 				<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-4">
 				<label asp-for="Doctors.DrLName" class="control-label"></label>
 				<input asp-for="Doctors.DrLName" class="form-control" />
 				<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-3">
 				<label asp-for="Doctors.DrMName" class="control-label"></label>
 				<input asp-for="Doctors.DrMName" class="form-control" />
 			</div>
-			<div class="form-group">
-				<label asp-for="Companies" class="control-label"></label>
-				<select placeholder="select members" id="mySelect" multiple="multiple" class="form-control" name="CheckedCompanies">
-					@foreach (var item in Model.Companies)
-					{
-						<option value="@item.Value">@item.Text</option>
-					}
-				</select>
+		</div>
+		<div class="row">
+			<div class="form-group col-4">
+				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
+				<input asp-for="Doctors.PersonalCell" class=" form-control" />
+				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
 			</div>
-			<div class="form-group">
+			<div class="col-4"></div>
+			<div class="form-group col-3">
 				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
 				<select id="example-multiple-selected" class="form-control" name="Doctors.SpecialityID">
 					@foreach (var option in Model.Options)
@@ -43,62 +42,53 @@
 				</select>
 				<span asp-validation-for="Doctors.SpecialityID" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street1" class="control-label"></label>
-				<input asp-for="Addresses.Street1" class="form-control" />
-				<span asp-validation-for="Addresses.Street1" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street2" class="control-label"></label>
-				<input asp-for="Addresses.Street2" class="form-control" />
-				<span asp-validation-for="Addresses.Street2" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.ZipCode" class="control-label"></label>
-				<input asp-for="Addresses.ZipCode" class="form-control" />
-				<span asp-validation-for="Addresses.ZipCode" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.City" class="control-label"></label>
-				<input asp-for="Addresses.City" class="form-control" />
-				<span asp-validation-for="Addresses.City" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.State" class="control-label"></label>
-				<input asp-for="Addresses.State" class="form-control" />
-				<span asp-validation-for="Addresses.State" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.TelAddress" class="control-label"></label>
-				<input asp-for="Addresses.TelAddress" class="form-control" />
-				<span asp-validation-for="Addresses.TelAddress" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.FaxAddress" class="control-label"></label>
-				<input asp-for="Addresses.FaxAddress" class="form-control" />
-				<span asp-validation-for="Addresses.FaxAddress" class="text-danger"></span>
-			</div>
-			<div class="form-group">
+		</div>
+		<div class="row">
+			<div class="form-group col-4">
 				<label asp-for="Doctors.EmailPersonal" class="control-label"></label>
 				<input asp-for="Doctors.EmailPersonal" class="form-control" />
 				<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-7">
 				<label asp-for="Doctors.EmailWork" class="control-label"></label>
 				<input asp-for="Doctors.EmailWork" class=" form-control" />
 				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
-				<input asp-for="Doctors.PersonalCell" class=" form-control" />
-				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
-			</div>
-			<div class="form-group mt-2">
-				<input type="submit" value="Create" class="btn btn-primary" />
-				<a class="btn btn-success" asp-page="Index">Doctor List</a>
-			</div>
-		</form>
-	</div>
+		</div>
+		<div class="form-group col-8">
+			<label asp-for="Companies" class="control-label"></label>
+			<select placeholder="select members" id="mySelect" multiple="multiple" class="form-control" name="CheckedCompanies">
+				@foreach (var item in Model.Companies)
+				{
+					<option value="@item.Value">@item.Text</option>
+				}
+			</select>
+		</div>
+		<div class="d-flex col-2 justify-content-md-start align-items-center mt-4">
+			<h5>Address</h5>
+			<span>
+				<button id="addRow" type="button" class="btn btn-default btn-sm align-content-center pl-4">
+					<svg bootstrap-icon="PlusSquare" width="24" height="24" aria-label="PlusSquare"></svg>
+				</button>
+			</span>
+		</div>
+		<div class="d-flex justify-content-between">
+			<hr />
+			<button type="button" class="btn btn-default btn-sm align-content-center pl-4">
+				<svg bootstrap-icon="PlusSquare" width="24" height="24" aria-label="PlusSquare"></svg>
+			</button>
+		</div>
+		<div id="address-row">
+			@for (int i = 0; i < Model.Addresses.Count(); i++)
+			{
+				<partial name="_AddressPartial" model="Model.Addresses[i]" />
+			}
+		</div>
+		<div class="form-group mt-2">
+			<input type="submit" name="command" value="Create" class="btn btn-primary" />
+			<a class="btn btn-success" asp-page="Index">Doctor List</a>
+		</div>
+	</form>
 </div>
 
 @section Scripts {
@@ -106,11 +96,44 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 	<script>
-		$('#mySelect').multiselect({
-			maxHeight: 300,
-			buttonWidth: '100%',
-			placeholder: 'Select options'
+			$('#mySelect').multiselect({
+				maxHeight: 300,
+				buttonWidth: '100%',
+				placeholder: 'Select options'
+			});
+			 $('#addRow').click(function (event) {
+				 event.preventDefault();
+				 var index = $('#address-row').children().length;
+			$.ajax({
+				url: '/Doctors/Create?handler=AddRow',
+				method: "GET",
+				contentType: "application/json; charset=utf-8",
+				headers: {
+					 RequestVerificationToken:
+					 $('input:hidden[name="__RequestVerificationToken"]').val()
+				},
+				success: function (partialView) {
+					$('#address-row').append(partialView);
+
+				},
+				error: function (xhr, status, error) {
+					console.log(index);
+					console.error('Error loading address row:', error);
+				}
 		});
+		$('form').submit(function () {
+				var index = 0; // Initialize the index
+				$('#address-row').find('.address-item').each(function () {
+					$(this).find('input').each(function () {
+						var name = $(this).attr('name'); // Get the input field name
+						console.log(name);
+						$(this).attr('name', 'Addresses[' + index + '].' + name);
+					});
+					index++; // Increment the index for the next iteration
+				});
+			});
+		});
+
 	</script>
 }
 

@@ -1,0 +1,45 @@
+﻿@model DoctorApp.Models.Address;
+
+<div class="address-item">
+	<div class="row">
+		<div class="form-group col-8">
+			<label asp-for="Street1" class="control-label"></label>
+			<input asp-for="Street1" class="form-control" />
+			<span asp-validation-for="Street1" class="text-danger"></span>
+		</div>
+		<div class="form-group col-3">
+			<label asp-for="Street2" class="control-label"></label>
+			<input asp-for="Street2" class="form-control" />
+			<span asp-validation-for="Street2" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-4">
+			<label asp-for="City" class="control-label"></label>
+			<input asp-for="City" class="form-control" />
+			<span asp-validation-for="City" class="text-danger"></span>
+		</div>
+		<div class="form-group col-4">
+			<label asp-for="State" class="control-label"></label>
+			<input asp-for="State" runat="server" class="form-control" />
+			<span asp-validation-for="State" class="text-danger"></span>
+		</div>
+		<div class="form-group col-3">
+			<label asp-for="ZipCode" class="control-label"></label>
+			<input asp-for="ZipCode" class="form-control" />
+			<span asp-validation-for="ZipCode" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-4">
+			<label asp-for="TelAddress" class="control-label"></label>
+			<input asp-for="TelAddress" class="form-control" />
+			<span asp-validation-for="TelAddress" class="text-danger"></span>
+		</div>
+		<div class="form-group col-4">
+			<label asp-for="FaxAddress" class="control-label"></label>
+			<input asp-for="FaxAddress" class="form-control" />
+			<span asp-validation-for="FaxAddress" class="text-danger"></span>
+		</div>
+	</div>
+</div>

@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DoctorApp.Models;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DoctorApp.Data
 {
-	public class DataContext : DbContext
+	public class DataContext : IdentityDbContext<ApplicationUser>
 	{
 		public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -17,6 +19,17 @@ namespace DoctorApp.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
+			//Identity roles
+			var admin = new IdentityRole("admin");
+			admin.NormalizedName = "admin";
+
+			var client = new IdentityRole("client");
+			client.NormalizedName = "client";
+
+			modelBuilder.Entity<IdentityRole>().HasData(admin, client);
+
 			//many to many
 			modelBuilder.Entity<Doctor>()
 				.HasMany(e => e.InsuranceCompanies)

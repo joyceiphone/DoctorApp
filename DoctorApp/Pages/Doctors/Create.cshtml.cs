@@ -5,6 +5,7 @@ using DoctorApp.Data;
 using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DoctorApp.Pages.Doctors
 {
@@ -25,10 +26,26 @@ namespace DoctorApp.Pages.Doctors
 		public List<InsuranceCompany_Doctor> InsuranceCompany_Doctors { get; set; }
 
 		[BindProperty]
-		public Address Addresses { get; set; }
+		public List<Address> Addresses { get; set; }
 
+		public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+		{
+			await OnGetAsync();
+			await base.OnPageHandlerExecutionAsync(context, next);
+		}
 		public async Task OnGetAsync()
 		{
+			Console.WriteLine("OnGetAsync called");
+			if (Addresses == null)
+			{
+				Console.WriteLine("null model");
+				Addresses = new List<Address>();
+			}
+
+			if (!Addresses.Any())
+			{
+				Addresses.Add(new Address());
+			}
 
 			Options = await _context.Specialties.Select(a =>
 								  new SelectListItem
@@ -43,7 +60,14 @@ namespace DoctorApp.Pages.Doctors
 									  Text = a.CompanyName
 								  }).ToListAsync();
 		}
-		public async Task<IActionResult> OnPost()
+
+		public IActionResult OnGetAddRow()
+		{
+			Addresses.Add(new Address());
+			return Partial("_AddressPartial", Addresses.Last());
+		}
+
+		public async Task<IActionResult> OnPost(List<Address> addresses)
 		{
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
@@ -54,6 +78,7 @@ namespace DoctorApp.Pages.Doctors
 			Doctors.CreatedBy = "joyce";
 			Doctors.IsActive = false;
 			_context.Doctors.Add(Doctors);
+
 			await _context.SaveChangesAsync();
 
 			int newDoctorId = Doctors.Id;
@@ -77,9 +102,13 @@ namespace DoctorApp.Pages.Doctors
 				await _context.SaveChangesAsync();
 			}
 
-			Addresses.DoctorId = newDoctorId;
-			Addresses.IsActive = true;
-			_context.Addresses.Add(Addresses);
+			foreach (var address in addresses)
+			{
+				address.DoctorId = newDoctorId;
+				address.IsActive = true;
+				_context.Addresses.Add(address);
+			}
+
 			await _context.SaveChangesAsync();
 
 			return RedirectToPage(nameof(Index));
