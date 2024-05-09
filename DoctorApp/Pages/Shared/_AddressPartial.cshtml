@@ -1,5 +1,22 @@
 ﻿@model DoctorApp.Models.Address;
 
+@{
+	var States = new List<string> { "AL", "AK", "AZ", "AR",
+				"CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+				"MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
+				"NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+				"SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
+				"WY"
+	};
+}
+
+<div class="d-flex justify-content-start">
+	<hr class="hr col-11" style="height: 1px; opacity: 1">
+	<button type="button" class="visible-button btn btn-default btn-sm align-content-center pl-4">
+		<svg class='triangle' bootstrap-icon="Triangle" width="24" height="24" aria-label="Triangle"></svg>
+	</button>
+</div>
 <div class="address-item">
 	<div class="row">
 		<div class="form-group col-8">
@@ -21,7 +38,12 @@
 		</div>
 		<div class="form-group col-4">
 			<label asp-for="State" class="control-label"></label>
-			<input asp-for="State" runat="server" class="form-control" />
+			<select id="City" class="form-control form-select form-select-md" name="State">
+				@foreach (var option in States)
+				{
+					<option value="@option">@Html.DisplayFor(item => option)</option>
+				}
+			</select>
 			<span asp-validation-for="State" class="text-danger"></span>
 		</div>
 		<div class="form-group col-3">

@@ -11,30 +11,30 @@
 	<form method="post">
 		<div class="row">
 			<div class="form-group col-4">
-				<label asp-for="Doctors.DrFName" class="control-label"></label>
+				<label class="control-label">First Name</label>
 				<input asp-for="Doctors.DrFName" class="form-control" />
 				<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
 			</div>
 			<div class="form-group col-4">
-				<label asp-for="Doctors.DrLName" class="control-label"></label>
+				<label class="control-label">Last Name</label>
 				<input asp-for="Doctors.DrLName" class="form-control" />
 				<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
 			</div>
 			<div class="form-group col-3">
-				<label asp-for="Doctors.DrMName" class="control-label"></label>
+				<label class="control-label">Middle Name</label>
 				<input asp-for="Doctors.DrMName" class="form-control" />
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-4">
-				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
+				<label class="control-label">Personal Cell</label>
 				<input asp-for="Doctors.PersonalCell" class=" form-control" />
 				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
 			</div>
 			<div class="col-4"></div>
 			<div class="form-group col-3">
-				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
-				<select id="example-multiple-selected" class="form-control" name="Doctors.SpecialityID">
+				<label class="control-label">Speciality ID</label>
+				<select id="example-multiple-selected" class="form-control form-select form-select-md" name="Doctors.SpecialityID">
 					@foreach (var option in Model.Options)
 					{
 						<option value="@option.Value">@Html.DisplayFor(item => option.Text)</option>
@@ -45,12 +45,12 @@
 		</div>
 		<div class="row">
 			<div class="form-group col-4">
-				<label asp-for="Doctors.EmailPersonal" class="control-label"></label>
+				<label class="control-label">Personal Email</label>
 				<input asp-for="Doctors.EmailPersonal" class="form-control" />
 				<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
 			</div>
 			<div class="form-group col-7">
-				<label asp-for="Doctors.EmailWork" class="control-label"></label>
+				<label class="control-label">Work Email</label>
 				<input asp-for="Doctors.EmailWork" class=" form-control" />
 				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
 			</div>
@@ -64,6 +64,16 @@
 				}
 			</select>
 		</div>
+		<div id="address-row">
+			<partial name="_AddressPartial" model="Model.Addresses[0]" />
+			@if (Model.Addresses.Count() > 1)
+			{
+				@for (int i = 1; i < Model.Addresses.Count(); i++)
+				{
+					<partial name="_AddressPartial" model="Model.Addresses[i]" />
+				}
+			}
+		</div>
 		<div class="d-flex col-2 justify-content-md-start align-items-center mt-4">
 			<h5>Address</h5>
 			<span>
@@ -71,18 +81,6 @@
 					<svg bootstrap-icon="PlusSquare" width="24" height="24" aria-label="PlusSquare"></svg>
 				</button>
 			</span>
-		</div>
-		<div class="d-flex justify-content-between">
-			<hr />
-			<button type="button" class="btn btn-default btn-sm align-content-center pl-4">
-				<svg bootstrap-icon="PlusSquare" width="24" height="24" aria-label="PlusSquare"></svg>
-			</button>
-		</div>
-		<div id="address-row">
-			@for (int i = 0; i < Model.Addresses.Count(); i++)
-			{
-				<partial name="_AddressPartial" model="Model.Addresses[i]" />
-			}
 		</div>
 		<div class="form-group mt-2">
 			<input type="submit" name="command" value="Create" class="btn btn-primary" />
@@ -96,44 +94,60 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 	<script>
+		$(document).ready(function () {
 			$('#mySelect').multiselect({
 				maxHeight: 300,
 				buttonWidth: '100%',
 				placeholder: 'Select options'
 			});
-			 $('#addRow').click(function (event) {
-				 event.preventDefault();
-				 var index = $('#address-row').children().length;
-			$.ajax({
-				url: '/Doctors/Create?handler=AddRow',
-				method: "GET",
-				contentType: "application/json; charset=utf-8",
-				headers: {
-					 RequestVerificationToken:
-					 $('input:hidden[name="__RequestVerificationToken"]').val()
-				},
-				success: function (partialView) {
-					$('#address-row').append(partialView);
-
-				},
-				error: function (xhr, status, error) {
-					console.log(index);
-					console.error('Error loading address row:', error);
+			$('#mySelect').click(function (event) {
+				var rowCount = $('#mySelect option').length;
+				alert('Please add specialty');
+			})
+			function checkAddressItemCount() {
+				var addressItemCount = $('.address-item').length;
+				if (addressItemCount >= 4) {
+					$('#addRow').prop('disabled', true);
+				} else {
+					$('#addRow').prop('disabled', false);
 				}
-		});
-		$('form').submit(function () {
+			}
+			$('#addRow').click(function () {
+				checkAddressItemCount();
+			});
+			$('form').submit(function () {
 				var index = 0; // Initialize the index
 				$('#address-row').find('.address-item').each(function () {
-					$(this).find('input').each(function () {
+					$(this).find('input, select').each(function () {
 						var name = $(this).attr('name'); // Get the input field name
-						console.log(name);
 						$(this).attr('name', 'Addresses[' + index + '].' + name);
 					});
 					index++; // Increment the index for the next iteration
 				});
 			});
-		});
-
+			$('#addRow').click(function (event) {
+				event.preventDefault();
+				$.ajax({
+					url: '/Doctors/Create?handler=AddRow',
+					method: "GET",
+					contentType: "application/json; charset=utf-8",
+					headers: {
+						RequestVerificationToken:
+							$('input:hidden[name="__RequestVerificationToken"]').val()
+					},
+					success: function (partialView) {
+						$('#address-row').append(partialView);
+					},
+					error: function (xhr, status, error) {
+						console.error('Error loading address row:', error);
+					}
+				});
+			});
+			$(document).on('click', '.visible-button', function () {
+				$(this).closest('.d-flex').next('.address-item').toggle();
+				$(this).find('.triangle').toggleClass('rotate-180');
+			});
+		})
 	</script>
 }
 
