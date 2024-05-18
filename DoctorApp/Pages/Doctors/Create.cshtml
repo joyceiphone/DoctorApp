@@ -65,12 +65,16 @@
 			</select>
 		</div>
 		<div id="address-row">
-			<partial name="_AddressPartial" model="Model.Addresses[0]" />
+			<div class="address-item-toggle">
+				<partial name="_AddressPartial" model="Model.Addresses[0]" />
+			</div>
 			@if (Model.Addresses.Count() > 1)
 			{
 				@for (int i = 1; i < Model.Addresses.Count(); i++)
 				{
-					<partial name="_AddressPartial" model="Model.Addresses[i]" />
+					<div class="address-item-toggle">
+						<partial name="_AddressPartial" model="Model.Addresses[i]" />
+					</div>
 				}
 			}
 		</div>
@@ -95,6 +99,7 @@
 	}
 	<script>
 		$(document).ready(function () {
+			initializeValidation();
 			$('#mySelect').multiselect({
 				maxHeight: 300,
 				buttonWidth: '100%',
@@ -104,27 +109,24 @@
 				var rowCount = $('#mySelect option').length;
 				alert('Please add specialty');
 			})
-			function checkAddressItemCount() {
+			function checkAddressItemCount(increase = true) {
 				var addressItemCount = $('.address-item').length;
-				if (addressItemCount >= 4) {
+				if (addressItemCount >= 4 && increase) {
 					$('#addRow').prop('disabled', true);
-				} else {
+				} else if(increase){
 					$('#addRow').prop('disabled', false);
+				}
+				if (addressItemCount < 5 && !increase) {
+					$('#addRow').prop('disabled', false);
+				} else if (!increase) { 
+					$('#addRow').prop('disabled', true);
 				}
 			}
 			$('#addRow').click(function () {
 				checkAddressItemCount();
+				initializeValidation();
 			});
-			$('form').submit(function () {
-				var index = 0; // Initialize the index
-				$('#address-row').find('.address-item').each(function () {
-					$(this).find('input, select').each(function () {
-						var name = $(this).attr('name'); // Get the input field name
-						$(this).attr('name', 'Addresses[' + index + '].' + name);
-					});
-					index++; // Increment the index for the next iteration
-				});
-			});
+
 			$('#addRow').click(function (event) {
 				event.preventDefault();
 				$.ajax({
@@ -137,16 +139,59 @@
 					},
 					success: function (partialView) {
 						$('#address-row').append(partialView);
+						//$.validator.unobtrusive.parse(document);
+						initializeValidation();
 					},
 					error: function (xhr, status, error) {
 						console.error('Error loading address row:', error);
 					}
 				});
 			});
+
+			function hasNoIndexInName(element) {
+				var name = element.attr('name');
+				return !name.includes('[');
+			}
+
+			function hasNoIndexIndataValmsgFor(element) {
+				var name = element.attr('data-valmsg-for');
+				return !name.includes('[');
+			}
+
+			function initializeValidation() {
+				var index = 0;
+				$('#address-row').find('.address-item').each(function () {
+					$(this).find('input, select').each(function () {
+						console.log('add name');
+						if (hasNoIndexInName($(this))) {
+							var name = $(this).attr('name');
+							$(this).attr('name', 'Addresses[' + index + '].' + name);
+							$(this).attr('id', 'Addresses_' + index + '__' + name);
+						}
+					});
+					$(this).find('.field-validation-valid').each(function () {
+						if (hasNoIndexIndataValmsgFor($(this))) {
+							var name = $(this).attr('data-valmsg-for');
+							$(this).attr('data-valmsg-for', 'Addresses[' + index + '].' + name);
+						}
+					});
+					index++;
+					$.validator.unobtrusive.parse('#address-row');
+					$("form").removeData("validator");
+					$("form").removeData("unobtrusiveValidation");
+					$.validator.unobtrusive.parse("form");
+				});
+			}
+
+			$(document).on('click', '.remove-row', function () {
+				$(this).closest('.address-item-toggle').removeClass('address-item-toggle').remove();
+				checkAddressItemCount(false);
+			})
 			$(document).on('click', '.visible-button', function () {
 				$(this).closest('.d-flex').next('.address-item').toggle();
 				$(this).find('.triangle').toggleClass('rotate-180');
 			});
+			$('.remove-row:first').hide();
 		})
 	</script>
 }

@@ -16,8 +16,14 @@ namespace DoctorApp.Models
 		public string DrLName { get; set; }
 		public string? DrMName { get; set; }
 		public int SpecialityID { get; set; }
+
+		[RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Your Email is not valid.")]
 		public string? EmailPersonal { get; set; }
+
+		[RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Your Email is not valid.")]
 		public string? EmailWork { get; set; }
+
+		[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format XXX-XXX-XXXX.")]
 		public string? PersonalCell { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]

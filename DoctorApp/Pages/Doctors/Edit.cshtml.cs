@@ -1,6 +1,8 @@
 using DoctorApp.Data;
 using DoctorApp.Models;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +19,8 @@ namespace DoctorApp.Pages.Doctors
 
 		[BindProperty]
 		public int DoctorId { get; set; }
-		[BindProperty]
-		public int AddressId { get; set; }
+		//[BindProperty]
+		//public List<int> AddressIds { get; set; }
 		[BindProperty]
 		public Doctor Doctors { get; set; }
 		[BindProperty]
@@ -29,10 +31,18 @@ namespace DoctorApp.Pages.Doctors
 		public List<String> InsuranceCompanies { get; set; }
 
 		[BindProperty]
-		public Address Addresses { get; set; }
+		public List<Address> Addresses { get; set; }
+
+		public List<int> AddressIds { get; set; }
 
 		public List<InsuranceCompany_Doctor> InsuranceCompanies_Doctors { get; set; }
 		public JoinedResult JoinedResults { get; set; }
+		public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+		{
+			int? itemid = Convert.ToInt32(context.HttpContext.Request.Query["itemid"].FirstOrDefault());
+			await OnGetAsync(itemid);
+			await base.OnPageHandlerExecutionAsync(context, next);
+		}
 
 		public async Task<IActionResult> OnGetAsync(int? itemid)
 		{
@@ -77,16 +87,44 @@ namespace DoctorApp.Pages.Doctors
 						  Text = a.CompanyName
 					  }).ToListAsync();
 
-			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
-			if (Addresses != null)
+			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+
+			if (Addresses == null)
 			{
-				AddressId = Addresses.Id;
+				Addresses = new List<Address>();
+			}
+
+			if (!Addresses.Any())
+			{
+				Addresses.Add(new Address());
 			}
 
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPost(int? itemid)
+		public async Task<IActionResult> OnGetAddRow()
+		{
+			int? itemid = Request.RouteValues["itemid"] as int?;
+			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			if (Addresses != null)
+			{
+				foreach (var Address in Addresses)
+				{
+					AddressIds.Add(Address.Id);
+				}
+			}
+
+			// Check if Addresses is null before adding a new Address
+			if (Addresses == null)
+			{
+				Addresses = new List<Address>();
+			}
+
+			Addresses.Add(new Address());
+			return Partial("_AddressPartial", Addresses.Last());
+		}
+
+		public async Task<IActionResult> OnPost(int? itemid, List<Address> addresses)
 		{
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
@@ -135,21 +173,59 @@ namespace DoctorApp.Pages.Doctors
 				});
 			}
 
-			if (AddressId != 0)
+			var addressIds = await _context.Addresses.Where(p => p.DoctorId == itemid)
+				.Select(p => p.Id).ToListAsync();
+
+			var updatedIds = new List<int>();
+
+			foreach (var address in addresses)
 			{
-				Addresses.Id = AddressId;
-				Addresses.DoctorId = DoctorId;
-				Addresses.ModifiedDateTime = DateTime.Now;
-				_context.Addresses.Update(Addresses);
+				if (address.Id != 0)
+				{
+					updatedIds.Add(address.Id);
+					var existingAddress = await _context.Addresses.FindAsync(address.Id);
+					if (existingAddress.Street1 != address.Street1 ||
+					existingAddress.Street2 != address.Street2 ||
+					existingAddress.City != address.City ||
+					existingAddress.State != address.State ||
+					existingAddress.ZipCode != address.ZipCode ||
+					existingAddress.TelAddress != address.TelAddress ||
+					existingAddress.FaxAddress != address.FaxAddress
+					)
+					{
+						address.DoctorId = DoctorId;
+						address.Id = existingAddress.Id;
+						address.ModifiedDateTime = DateTime.Now;
+						_context.Addresses.Update(address);
+					}
+				}
+				else
+				{
+					address.DoctorId = DoctorId;
+					address.IsActive = true;
+					_context.Addresses.Add(address);
+				}
 			}
-			else
+
+			if (addressIds != null)
 			{
-				Addresses.DoctorId = DoctorId;
-				Addresses.IsActive = false;
-				_context.Addresses.Add(Addresses);
+				var addressIdsToDelete = addressIds.Except(updatedIds);
+				if(addressIdsToDelete != null)
+				{
+					foreach(var id in addressIdsToDelete)
+					{
+						var addressToDelete = await _context.Addresses.FindAsync(Convert.ToInt32(id));
+						if (addressToDelete != null)
+						{
+							addressToDelete.IsActive = true;
+							_context.Remove(addressToDelete);
+						}
+					}
+				}
 			}
 
 			await _context.SaveChangesAsync();
+
 
 			return RedirectToPage(nameof(Index));
 		}

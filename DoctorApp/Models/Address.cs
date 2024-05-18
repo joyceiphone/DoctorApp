@@ -18,7 +18,11 @@ namespace DoctorApp.Models
 		public string ZipCode { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
+
+		[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format XXX-XXX-XXXX.")]
 		public string TelAddress { get; set; }
+
+		[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format XXX-XXX-XXXX.")]
 		public string? FaxAddress { get; set; }
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }

@@ -35,10 +35,8 @@ namespace DoctorApp.Pages.Doctors
 		}
 		public async Task OnGetAsync()
 		{
-			Console.WriteLine("OnGetAsync called");
 			if (Addresses == null)
 			{
-				Console.WriteLine("null model");
 				Addresses = new List<Address>();
 			}
 

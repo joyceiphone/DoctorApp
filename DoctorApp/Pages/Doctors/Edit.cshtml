@@ -2,28 +2,71 @@
 @model DoctorApp.Pages.Doctors.EditModel
 @{
 	ViewData["title"] = "Edit";
+	var States = new List<string> { "AL", "AK", "AZ", "AR",
+				"CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+				"MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
+				"NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+				"SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
+				"WY"
+	};
 }
 
 <h3>@ViewData["title"]</h3>
 <hr />
 
 <div class="row">
-	<div class="col-md-4">
+	<div>
 		<form method="post">
 			<div class="form-group">
 				<input type="hidden" asp-for="DoctorId" />
 			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.DrFName" class="control-label"></label>
-				<input asp-for="Doctors.DrFName" class="form-control" />
-				<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">First Name</label>
+					<input asp-for="Doctors.DrFName" class="form-control" />
+					<span asp-validation-for="Doctors.DrFName" class="text-danger"></span>
+				</div>
+				<div class="form-group col-4">
+					<label class="control-label">Last Name</label>
+					<input asp-for="Doctors.DrLName" class="form-control" />
+					<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
+				</div>
+				<div class="form-group col-3">
+					<label class="control-label">Middle Name</label>
+					<input asp-for="Doctors.DrMName" class="form-control" />
+				</div>
 			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.DrLName" class="control-label"></label>
-				<input asp-for="Doctors.DrLName" class="form-control" />
-				<span asp-validation-for="Doctors.DrLName" class="text-danger"></span>
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">Personal Cell</label>
+					<input asp-for="Doctors.PersonalCell" class=" form-control" />
+					<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
+				</div>
+				<div class="col-4"></div>
+				<div class="form-group col-3">
+					<label asp-for="Doctors.SpecialityID" class="control-label"></label>
+					<select asp-for="Doctors.SpecialityID" class="form-control form-select" name="Doctors.SpecialityID">
+						@foreach (var option in Model.Options)
+						{
+							<option value="@option.Value">@option.Text</option>
+						}
+					</select>
+				</div>
 			</div>
-			<div class="form-group">
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">Personal Email</label>
+					<input asp-for="Doctors.EmailPersonal" class="form-control" />
+					<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
+				</div>
+				<div class="form-group col-7">
+					<label class="control-label">Work Email</label>
+					<input asp-for="Doctors.EmailWork" class=" form-control" />
+					<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group col-8">
 				<label asp-for="Companies" class="control-label">Insurance Companies</label>
 				<select id="mySelect" name="CheckedCompanies" multiple="multiple" class="form-control">
 					@foreach (var item in Model.Companies)
@@ -32,73 +75,89 @@
 					}
 				</select>
 			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.SpecialityID" class="control-label"></label>
-				<select asp-for="Doctors.SpecialityID" class="form-control" name="Doctors.SpecialityID">
-					@foreach (var option in Model.Options)
+			<div id="address-row">
+				@if (Model.Addresses.Count() >= 1)
+				{
+					@for (int i = 0; i <  Model.Addresses.Count(); i++)
 					{
-						<option value="@option.Value">@option.Text</option>
+						<div class="address-item-toggle">
+							<div class="d-flex justify-content-start">
+								<hr class="hr col-11" style="height: 1px; opacity: 1">
+								<button type="button" class="visible-button btn btn-default btn-sm align-content-center pl-4">
+									<svg class='triangle' bootstrap-icon="Triangle" width="24" height="24" aria-label="Triangle"></svg>
+								</button>
+							</div>
+							<div class="address-item">
+								<div class="row">
+									<div class="form-group">
+										<input type="hidden" asp-for="@Model.Addresses[i].Id" />
+									</div>
+									<div class="form-group col-8">
+										<label asp-for="@Model.Addresses[i].Street1" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].Street1" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].Street1" class="text-danger"></span>
+									</div>
+									<div class="form-group col-3">
+										<label asp-for="@Model.Addresses[i].Street2" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].Street2" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].Street2" class="text-danger"></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-4">
+										<label asp-for="@Model.Addresses[i].City" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].City" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].City" class="text-danger"></span>
+									</div>
+									<div class="form-group col-4">
+										<label asp-for="@Model.Addresses[i].State" class="control-label"></label>
+										<select id="City" class="form-control form-select form-select-md" name="State">
+											@foreach (var option in States)
+											{
+												<option value="@option">@Html.DisplayFor(item => option)</option>
+											}
+										</select>
+										<span asp-validation-for="@Model.Addresses[i].State" class="text-danger"></span>
+									</div>
+									<div class="form-group col-3">
+										<label asp-for="@Model.Addresses[i].ZipCode" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].ZipCode" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].ZipCode" class="text-danger"></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-4">
+										<label asp-for="@Model.Addresses[i].TelAddress" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].TelAddress" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].TelAddress" class="text-danger"></span>
+									</div>
+									<div class="form-group col-4">
+										<label asp-for="@Model.Addresses[i].FaxAddress" class="control-label"></label>
+										<input asp-for="@Model.Addresses[i].FaxAddress" class="form-control" />
+										<span asp-validation-for="@Model.Addresses[i].FaxAddress" class="text-danger"></span>
+									</div>
+									<div class="col-3 d-flex align-items-start mt-4">
+										<button type="button" class="remove-row btn btn-danger">Remove</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					}
-				</select>
+				}
 			</div>
-			<div class="form-group">
-				<input type="hidden" asp-for="AddressId" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street1" class="control-label"></label>
-				<input asp-for="Addresses.Street1" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street2" class="control-label"></label>
-				<input asp-for="Addresses.Street2" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.ZipCode" class="control-label"></label>
-				<input asp-for="Addresses.ZipCode" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.City" class="control-label"></label>
-				<input asp-for="Addresses.City" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.State" class="control-label"></label>
-				<input asp-for="Addresses.State" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.TelAddress" class="control-label"></label>
-				<input asp-for="Addresses.TelAddress" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.FaxAddress" class="control-label"></label>
-				<input asp-for="Addresses.FaxAddress" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.EmailPersonal" class="control-label"></label>
-				<input asp-for="Doctors.EmailPersonal" class="form-control" />
-				<span asp-validation-for="Doctors.EmailPersonal" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.EmailWork" class="control-label"></label>
-				<input asp-for="Doctors.EmailWork" class=" form-control" />
-				<span asp-validation-for="Doctors.EmailWork" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Doctors.PersonalCell" class="control-label"></label>
-				<input asp-for="Doctors.PersonalCell" class=" form-control" />
-				<span asp-validation-for="Doctors.PersonalCell" class="text-danger"></span>
+			<div class="d-flex col-2 justify-content-md-start align-items-center mt-4">
+				<h5>Address</h5>
+				<span>
+					<button id="addRowEdit" type="button" class="btn btn-default btn-sm align-content-center pl-4">
+						<svg bootstrap-icon="PlusSquare" width="24" height="24" aria-label="PlusSquare"></svg>
+					</button>
+				</span>
 			</div>
 			<div class="form-group mt-2">
 				<input type="submit" value="Edit" class="btn btn-primary" />
 				<a class="btn btn-success" asp-page="Index">Doctor List</a>
 			</div>
 		</form>
-		@foreach (var key in ViewData.ModelState.Keys)
-		{
-			foreach (var error in ViewData.ModelState[key].Errors)
-			{
-				<div>@error.ErrorMessage</div>
-			}
-		}
 	</div>
 </div>
 
@@ -112,5 +171,86 @@
 			buttonWidth: '100%',
 			placeholder: 'Select options'
 		});
+		$('document').ready(function () {
+			//initializeValidation();
+			$('#addRowEdit').click(function (event) {
+				event.preventDefault();
+				$.ajax({
+					url: '/Doctors/Edit?handler=AddRow',
+					method: "GET",
+					contentType: "application/json; charset=utf-8",
+					headers: {
+						RequestVerificationToken:
+							$('input:hidden[name="__RequestVerificationToken"]').val()
+					},
+					success: function (partialView) {
+						$('#address-row').append(partialView);
+						initializeValidation();
+					},
+					error: function (xhr, status, error) {
+						console.error('Error loading address row:', error);
+					}
+				});
+			});
+			function checkAddressItemCount(increase = true) {
+				var addressItemCount = $('.address-item').length;
+				if (addressItemCount >= 4 && increase) {
+					$('#addRow').prop('disabled', true);
+				} else if (increase) {
+					$('#addRow').prop('disabled', false);
+				}
+				if (addressItemCount < 5 && !increase) {
+					$('#addRow').prop('disabled', false);
+				} else if (!increase) {
+					$('#addRow').prop('disabled', true);
+				}
+			}
+			function hasNoIndexInName(element) {
+				var name = element.attr('name');
+				return !name.includes('[');
+			}
+
+			function hasNoIndexIndataValmsgFor(element) {
+				var name = element.attr('data-valmsg-for');
+				return !name.includes('[');
+			}
+			function initializeValidation() {
+				var index = 0;
+				$('#address-row').find('.address-item').each(function () {
+					$(this).find('input, select').each(function () {
+						if (hasNoIndexInName($(this))) {
+							var name = $(this).attr('name');
+							$(this).attr('name', 'Addresses[' + index + '].' + name);
+							$(this).attr('id', 'Addresses_' + index + '__' + name);
+						}
+					});
+					$(this).find('.field-validation-valid').each(function () {
+						if (hasNoIndexIndataValmsgFor($(this))) {
+							var name = $(this).attr('data-valmsg-for');
+							$(this).attr('data-valmsg-for', 'Addresses[' + index + '].' + name);
+						}
+					});
+					index++; // Increment the index for the next iteration
+					// Re-parse validation for the updated fields
+				});
+				var form = $("form");
+				form.removeData("validator");
+				form.removeData("unobtrusiveValidation");
+				$.validator.unobtrusive.parse(form);
+			}
+			$('#addRowEdit').click(function () {
+				checkAddressItemCount();
+				initializeValidation();
+			});
+			$(document).on('click', '.remove-row', function () {
+				$(this).closest('.address-item-toggle').removeClass('address-item-toggle').remove();
+				checkAddressItemCount();
+			})
+			$(document).on('click', '.visible-button', function () {
+				$(this).closest('.d-flex').next('.address-item').toggle();
+				$(this).find('.triangle').toggleClass('rotate-180');
+			});
+			$('.remove-row:first').hide();
+		})
 	</script>
 }
