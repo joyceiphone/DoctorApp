@@ -114,7 +114,7 @@
 										<select id="City" class="form-control form-select form-select-md" name="State">
 											@foreach (var option in States)
 											{
-												<option value="@option">@Html.DisplayFor(item => option)</option>
+												<option value="@option" selected="@(Model.Addresses[i].State.Contains(option))">@Html.DisplayFor(item => option)</option>
 											}
 										</select>
 										<span asp-validation-for="@Model.Addresses[i].State" class="text-danger"></span>
@@ -172,7 +172,7 @@
 			placeholder: 'Select options'
 		});
 		$('document').ready(function () {
-			//initializeValidation();
+			initializeValidation();
 			$('#addRowEdit').click(function (event) {
 				event.preventDefault();
 				$.ajax({
@@ -231,7 +231,6 @@
 						}
 					});
 					index++; // Increment the index for the next iteration
-					// Re-parse validation for the updated fields
 				});
 				var form = $("form");
 				form.removeData("validator");
