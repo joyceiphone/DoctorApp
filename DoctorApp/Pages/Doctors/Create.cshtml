@@ -34,7 +34,7 @@
 			<div class="col-4"></div>
 			<div class="form-group col-3">
 				<label class="control-label">Speciality ID</label>
-				<select id="example-multiple-selected" class="form-control form-select form-select-md" name="Doctors.SpecialityID">
+				<select asp-for="Doctors.SpecialityID" class="form-control form-select form-select-md" name="Doctors.SpecialityID">
 					@foreach (var option in Model.Options)
 					{
 						<option value="@option.Value">@Html.DisplayFor(item => option.Text)</option>
@@ -105,10 +105,6 @@
 				buttonWidth: '100%',
 				placeholder: 'Select options'
 			});
-			$('#mySelect').click(function (event) {
-				var rowCount = $('#mySelect option').length;
-				alert('Please add specialty');
-			})
 			function checkAddressItemCount(increase = true) {
 				var addressItemCount = $('.address-item').length;
 				if (addressItemCount >= 4 && increase) {
@@ -162,7 +158,6 @@
 				var index = 0;
 				$('#address-row').find('.address-item').each(function () {
 					$(this).find('input, select').each(function () {
-						console.log('add name');
 						if (hasNoIndexInName($(this))) {
 							var name = $(this).attr('name');
 							$(this).attr('name', 'Addresses[' + index + '].' + name);
@@ -182,16 +177,55 @@
 					$.validator.unobtrusive.parse("form");
 				});
 			}
+			function reindexAddressRows() {
+				var index = 0;
+				$('#address-row').find('.address-item-toggle .address-item').each(function () {
+					$(this).find('input, select').each(function () {
+						var name = $(this).attr('name');
+						if (name) {
+							var newName = name.replace(/Addresses\[\d+\]/, 'Addresses[' + index + ']');
+							$(this).attr('name', newName);
+							$(this).attr('id', newName.replace(/\./g, '_'));
+						}
+					});
+					$(this).find('.field-validation-valid').each(function () {
+						var name = $(this).attr('data-valmsg-for');
+						if (name) {
+							var newName = name.replace(/Addresses\[\d+\]/, 'Addresses[' + index + ']');
+							$(this).attr('data-valmsg-for', newName);
+						}
+					});
+					index++;
+				});
+
+				$.validator.unobtrusive.parse('#address-row');
+				$("form").removeData("validator");
+				$("form").removeData("unobtrusiveValidation");
+				$.validator.unobtrusive.parse("form");
+			}
 
 			$(document).on('click', '.remove-row', function () {
 				$(this).closest('.address-item-toggle').removeClass('address-item-toggle').remove();
 				checkAddressItemCount(false);
+				reindexAddressRows();
 			})
 			$(document).on('click', '.visible-button', function () {
 				$(this).closest('.d-flex').next('.address-item').toggle();
 				$(this).find('.triangle').toggleClass('rotate-180');
 			});
 			$('.remove-row:first').hide();
+
+			function checkSpecialtyRowCount() {
+				var specialtyCount = $('#Doctors_SpecialityID option').length;
+				return specialtyCount > 0;
+			}
+
+			$('form').submit(function () {
+				if (!checkSpecialtyRowCount()) {
+					alert('Please add specialty on the Specialty Page.')
+					return;
+				}
+			})
 		})
 	</script>
 }

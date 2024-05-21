@@ -180,6 +180,7 @@ namespace DoctorApp.Pages.Doctors
 
 			foreach (var address in addresses)
 			{
+				Console.WriteLine(address.Id);
 				if (address.Id != 0)
 				{
 					updatedIds.Add(address.Id);
@@ -201,6 +202,8 @@ namespace DoctorApp.Pages.Doctors
 				}
 				else
 				{
+					Console.WriteLine("add");
+					Console.WriteLine(address.Id);
 					address.DoctorId = DoctorId;
 					address.IsActive = true;
 					_context.Addresses.Add(address);
@@ -210,9 +213,16 @@ namespace DoctorApp.Pages.Doctors
 			if (addressIds != null)
 			{
 				var addressIdsToDelete = addressIds.Except(updatedIds);
-				if(addressIdsToDelete != null)
+				Console.WriteLine(addressIdsToDelete);
+				Console.WriteLine("delete");
+
+				foreach(var id in addressIdsToDelete)
 				{
-					foreach(var id in addressIdsToDelete)
+					Console.WriteLine(id);
+				}
+				if (addressIdsToDelete != null)
+				{
+					foreach (var id in addressIdsToDelete)
 					{
 						var addressToDelete = await _context.Addresses.FindAsync(Convert.ToInt32(id));
 						if (addressToDelete != null)

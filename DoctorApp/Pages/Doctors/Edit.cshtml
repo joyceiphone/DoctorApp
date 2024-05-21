@@ -52,6 +52,7 @@
 							<option value="@option.Value">@option.Text</option>
 						}
 					</select>
+					<span asp-validation-for="Doctors.SpecialityID" class="text-danger"></span>
 				</div>
 			</div>
 			<div class="row">
@@ -241,9 +242,37 @@
 				checkAddressItemCount();
 				initializeValidation();
 			});
+
+			function reindexAddressRows() {
+				var index = 0;
+				$('#address-row').find('.address-item-toggle').each(function () {
+					$(this).find('input, select').each(function () {
+						var name = $(this).attr('name');
+						if (name) {
+							var newName = name.replace(/Addresses\[\d+\]/, 'Addresses[' + index + ']');
+							$(this).attr('name', newName);
+							$(this).attr('id', newName.replace(/\./g, '_'));
+						}
+					});
+					$(this).find('.field-validation-valid').each(function () {
+						var name = $(this).attr('data-valmsg-for');
+						if (name) {
+							var newName = name.replace(/Addresses\[\d+\]/, 'Addresses[' + index + ']');
+							$(this).attr('data-valmsg-for', newName);
+						}
+					});
+					index++;
+				});
+
+				$.validator.unobtrusive.parse('#address-row');
+				$("form").removeData("validator");
+				$("form").removeData("unobtrusiveValidation");
+				$.validator.unobtrusive.parse("form");
+			}
 			$(document).on('click', '.remove-row', function () {
 				$(this).closest('.address-item-toggle').removeClass('address-item-toggle').remove();
 				checkAddressItemCount();
+				reindexAddressRows();
 			})
 			$(document).on('click', '.visible-button', function () {
 				$(this).closest('.d-flex').next('.address-item').toggle();

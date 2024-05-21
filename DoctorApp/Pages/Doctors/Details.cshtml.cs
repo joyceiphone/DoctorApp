@@ -19,7 +19,7 @@ namespace DoctorApp.Pages.Doctors
 		public Doctor Doctors { get; set; }
 
 		[BindProperty]
-		public Address Addresses { get; set; }
+		public List<Address> Addresses { get; set; }
 		public List<string> InsuranceCompanies { get; set; } // Declare InsuranceCompanies property
 
 		public JoinedResult JoinedResults { get; set; }
@@ -39,6 +39,7 @@ namespace DoctorApp.Pages.Doctors
 									Id = t1.Id,
 									DrFName = t1.DrFName,
 									DrLName = t1.DrLName,
+									DrMName = t1.DrMName,
 									SpecialityName = t2.SpecialityName,
 									EmailPersonal = t1.EmailPersonal,
 									EmailWork = t1.EmailWork,
@@ -58,7 +59,7 @@ namespace DoctorApp.Pages.Doctors
 
 			JoinedResults = doctor; // Assign the doctor to the JoinedResult property
 
-			Addresses = await _context.Addresses.FirstOrDefaultAsync(p => p.DoctorId == itemid);
+			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
 			return Page();
 		}
 	}
@@ -69,6 +70,8 @@ namespace DoctorApp.Pages.Doctors
 		public int Id { get; set; }
 		public string DrFName { get; set; }
 		public string DrLName { get; set; }
+
+		public string DrMName { get; set; }
 		public string SpecialityName { get; set; }
 		public string EmailPersonal { get; set; }
 		public string EmailWork { get; set; }

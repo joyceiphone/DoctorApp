@@ -8,21 +8,44 @@
 <hr />
 
 <div class="row">
-	<div class="col-md-4">
+	<div>
 		<form method="post">
-			<div class="form-group">
-				<label asp-for="JoinedResults.DrFName" class="control-label"></label>
-				<input asp-for="JoinedResults.DrFName" readonly class="form-control" />
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">First Name</label>
+					<input asp-for="JoinedResults.DrFName" readonly class="form-control" />
+				</div>
+				<div class="form-group col-4">
+					<label class="control-label">Last Name</label>
+					<input asp-for="JoinedResults.DrLName" readonly class="form-control" />
+				</div>
+				<div class="form-group col-3">
+					<label class="control-label">Middle Name</label>
+					<input asp-for="JoinedResults.DrMName" readonly class="form-control" />
+				</div>
 			</div>
-			<div class="form-group">
-				<label asp-for="JoinedResults.DrLName" class="control-label"></label>
-				<input asp-for="JoinedResults.DrLName" readonly class="form-control" />
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">Personal Cell</label>
+					<input asp-for="Doctors.PersonalCell" readonly class=" form-control" />
+				</div>
+				<div class="col-4"></div>
+				<div class="form-group col-3">
+					<label asp-for="JoinedResults.SpecialityName" class="control-label"></label>
+					<input asp-for="JoinedResults.SpecialityName" readonly class="form-control" />
+				</div>
 			</div>
-			<div class="form-group">
-				<label asp-for="JoinedResults.SpecialityName" class="control-label"></label>
-				<input asp-for="JoinedResults.SpecialityName" readonly class="form-control" />
+			<div class="row">
+				<div class="form-group col-4">
+					<label class="control-label">Personal Email</label>
+					<input asp-for="JoinedResults.EmailPersonal" readonly class="form-control" />
+				</div>
+				<div class="form-group col-7">
+					<label class="control-label">Work Email</label>
+					<input asp-for="JoinedResults.EmailWork" readonly class=" form-control" />
+				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-8">
 				<label asp-for="InsuranceCompanies" class="control-label"></label>
 				<div>
 					@for (int i = 0; i < Model.InsuranceCompanies.Count; i++)
@@ -35,45 +58,62 @@
 					}
 				</div>
 			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street1" class="control-label"></label>
-				<input asp-for="Addresses.Street1" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.Street2" class="control-label"></label>
-				<input asp-for="Addresses.Street2" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.ZipCode" class="control-label"></label>
-				<input asp-for="Addresses.ZipCode" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.City" class="control-label"></label>
-				<input asp-for="Addresses.City" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.State" class="control-label"></label>
-				<input asp-for="Addresses.State" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.TelAddress" class="control-label"></label>
-				<input asp-for="Addresses.TelAddress" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="Addresses.FaxAddress" class="control-label"></label>
-				<input asp-for="Addresses.FaxAddress" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="JoinedResults.EmailPersonal" class="control-label"></label>
-				<input asp-for="JoinedResults.EmailPersonal" readonly class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="JoinedResults.EmailWork" class="control-label"></label>
-				<input asp-for="JoinedResults.EmailWork" readonly class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="JoinedResults.PersonalCell" class="control-label"></label>
-				<input asp-for="JoinedResults.PersonalCell" readonly class="form-control" />
+			<div class="address-row">
+				@if (Model.Addresses != null && Model.Addresses.Any())
+				{
+					@for (int i = 0; i < Model.Addresses.Count(); i++)
+					{
+						<div class="address-item-toggle">
+							<div class="address-item-toggle">
+								<div class="d-flex justify-content-start">
+									<hr class="hr col-11" style="height: 1px; opacity: 1">
+									<button type="button" class="visible-button btn btn-default btn-sm align-content-center pl-4">
+										<svg class='triangle' bootstrap-icon="Triangle" width="24" height="24" aria-label="Triangle"></svg>
+									</button>
+								</div>
+								<div class="address-item">
+									<div class="row">
+										<div class="form-group">
+											<input type="hidden" asp-for="@Model.Addresses[i].Id" />
+										</div>
+										<div class="form-group col-8">
+											<label asp-for="@Model.Addresses[i].Street1" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].Street1" readonly class="form-control" />
+										</div>
+										<div class="form-group col-3">
+											<label asp-for="@Model.Addresses[i].Street2" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].Street2" readonly class="form-control" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-4">
+											<label asp-for="@Model.Addresses[i].City" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].City" readonly class="form-control" />
+										</div>
+										<div class="form-group col-4">
+											<label asp-for="@Model.Addresses[i].State" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].State" readonly class="form-control" />
+										</div>
+										<div class="form-group col-3">
+											<label asp-for="@Model.Addresses[i].ZipCode" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].ZipCode" readonly class="form-control" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-4">
+											<label asp-for="@Model.Addresses[i].TelAddress" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].TelAddress" readonly class="form-control" />
+										</div>
+										<div class="form-group col-4">
+											<label asp-for="@Model.Addresses[i].FaxAddress" class="control-label"></label>
+											<input asp-for="@Model.Addresses[i].FaxAddress" readonly class="form-control" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				}
 			</div>
 			<div class="form-group mt-2">
 				<a class="btn btn-success" asp-page="Index">Insurance Companies List</a>
