@@ -19,22 +19,27 @@
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies.Department" class="control-label"></label>
 				<input asp-for="InsuranceCompanies.Department" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.Department" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies.Telephone" class="control-label"></label>
 				<input asp-for="InsuranceCompanies.Telephone" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.Telephone" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies.ContactPerson" class="control-label"></label>
 				<input asp-for="InsuranceCompanies.ContactPerson" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.ContactPerson" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies.ContactEmail" class="control-label"></label>
 				<input asp-for="InsuranceCompanies.ContactEmail" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.ContactEmail" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="InsuranceCompanies.Note" class="control-label"></label>
 				<input asp-for="InsuranceCompanies.Note" class="form-control" />
+				<span asp-validation-for="InsuranceCompanies.Note" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<input type="submit" value="Update" class="btn btn-success" />
@@ -44,5 +49,10 @@
 	</div>
 </div>
 
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
 
 

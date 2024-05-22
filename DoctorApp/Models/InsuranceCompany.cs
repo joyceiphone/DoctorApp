@@ -18,10 +18,14 @@ namespace DoctorApp.Models
 		[DisplayName("Company Name")]
 		public string CompanyName { get; set; }
 		public string? Department { get; set; }
+
+		[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format XXX-XXX-XXXX.")]
 		public string? Telephone { get; set; }
 		[DisplayName("Contact Person")]
+
 		public string? ContactPerson { get; set; }
 		[DisplayName("Contact Email")]
+		[RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Your Email is not valid.")]
 		public string? ContactEmail { get; set; }
 		public string? Note { get; set; }
 
