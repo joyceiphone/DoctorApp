@@ -4,19 +4,23 @@ namespace DoctorApp
 {
     public class FileFontResolver : IFontResolver // FontResolverBase
     {
-        public string DefaultFontName => throw new NotImplementedException();
+		private readonly string fontDirectory;
+
+		public FileFontResolver()
+		{
+			fontDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "fonts");
+		}
+		public string DefaultFontName => throw new NotImplementedException();
 
         public byte[] GetFont(string faceName)
         {
-            using (var ms = new MemoryStream())
-            {
-                using (var fs = File.Open(faceName, FileMode.Open))
-                {
-                    fs.CopyTo(ms);
-                    ms.Position = 0;
-                    return ms.ToArray();
-                }
-            }
+			string fontPath = Path.Combine(fontDirectory, faceName);
+			if (!File.Exists(fontPath))
+			{
+				throw new FileNotFoundException($"Font file not found: {fontPath}");
+			}
+
+			return File.ReadAllBytes(fontPath);
         }
 
         public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic)
@@ -25,19 +29,19 @@ namespace DoctorApp
             {
                 if (isBold && isItalic)
                 {
-                    return new FontResolverInfo("Fonts/Times New Roman.ttf");
+                    return new FontResolverInfo("Times New Roman.ttf");
                 }
                 else if (isBold)
                 {
-                    return new FontResolverInfo("Fonts/Times New Roman.ttf");
+                    return new FontResolverInfo("Times New Roman.ttf");
                 }
                 else if (isItalic)
                 {
-                    return new FontResolverInfo("Fonts/Times New Roman.ttf");
+                    return new FontResolverInfo("Times New Roman.ttf");
                 }
                 else
                 {
-                    return new FontResolverInfo("Fonts/Times New Roman.ttf");
+                    return new FontResolverInfo("Times New Roman.ttf");
                 }
             }
             return null;
