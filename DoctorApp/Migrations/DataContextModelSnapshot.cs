@@ -17,7 +17,7 @@ namespace DoctorApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,7 +55,7 @@ namespace DoctorApp.Migrations
                     b.Property<string>("FaxAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -213,7 +213,7 @@ namespace DoctorApp.Migrations
                     b.Property<string>("EmailWork")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -228,7 +228,8 @@ namespace DoctorApp.Migrations
                     b.Property<string>("PersonalCell")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecialityID")
+                    b.Property<int?>("SpecialityID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -274,7 +275,7 @@ namespace DoctorApp.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -326,7 +327,7 @@ namespace DoctorApp.Migrations
                     b.Property<int>("InsuranceCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -377,7 +378,7 @@ namespace DoctorApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -423,7 +424,7 @@ namespace DoctorApp.Migrations
                     b.Property<DateTime?>("DeletedDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
@@ -473,13 +474,13 @@ namespace DoctorApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "42e151f4-39e8-43a8-a27b-c47e0927da72",
+                            Id = "4099f900-902c-4ccf-a000-048bcf82f274",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "513a5282-e69d-4db1-9b71-3212e54f761f",
+                            Id = "d4164b7d-3a2d-4f16-aee4-caf599295822",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -538,10 +539,12 @@ namespace DoctorApp.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -578,10 +581,12 @@ namespace DoctorApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

@@ -18,10 +18,6 @@ namespace DoctorApp.Pages.Doctors
 		}
 
 		[BindProperty]
-		public int DoctorId { get; set; }
-		//[BindProperty]
-		//public List<int> AddressIds { get; set; }
-		[BindProperty]
 		public Doctor Doctors { get; set; }
 		[BindProperty]
 		public List<SelectListItem> Options { get; set; }
@@ -36,7 +32,6 @@ namespace DoctorApp.Pages.Doctors
 		public List<int> AddressIds { get; set; }
 
 		public List<InsuranceCompany_Doctor> InsuranceCompanies_Doctors { get; set; }
-		public JoinedResult JoinedResults { get; set; }
 		public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
 		{
 			int? itemid = Convert.ToInt32(context.HttpContext.Request.Query["itemid"].FirstOrDefault());
@@ -51,18 +46,15 @@ namespace DoctorApp.Pages.Doctors
 				return NotFound();
 			}
 
-			var doctor = await _context.Doctors.FirstOrDefaultAsync(p => p.Id == itemid);
-			if (doctor == null)
+			Doctors = await _context.Doctors.FirstOrDefaultAsync(p => p.Id == itemid);
+
+			if (Doctors == null)
 			{
 				return NotFound();
 
 			}
 
-			Doctors = doctor;
-
-			DoctorId = doctor.Id;
-
-			Options = await _context.Specialties.Select(a =>
+			Options = await _context.Specialties.Where(s => s.IsActive == true).Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),
@@ -80,7 +72,7 @@ namespace DoctorApp.Pages.Doctors
 										}
 										).Select(ic => ic.CompanyName).ToListAsync();
 
-			Companies = await _context.InsuranceCompanies.Select(a =>
+			Companies = await _context.InsuranceCompanies.Where(i => i.IsActive == true).Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),
@@ -124,26 +116,23 @@ namespace DoctorApp.Pages.Doctors
 			return Partial("_AddressPartial", Addresses.Last());
 		}
 
-		public async Task<IActionResult> OnPost(int? itemid, List<Address> addresses)
+		public async Task<IActionResult> OnPost(int? itemid, Doctor doctors, List<Address> addresses)
 		{
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
 				return Page();
 			}
 
-			Doctors.Id = DoctorId;
-			Doctors.ModifiedBy = "joyce";
-			Doctors.CreatedBy = "joyce";
-			Doctors.ModifiedDateTime = DateTime.Now;
-			Doctors.IsActive = false;
-			_context.Doctors.Update(Doctors);
+			doctors.ModifiedBy = "joyce";
+			doctors.ModifiedDateTime = DateTime.Now;
+			_context.Doctors.Update(doctors);
 
 			// Get the list of checked insurance companies
 			var checkedCompanies = Request.Form["CheckedCompanies"].ToList();
 
 			// Get the previously stored list of insurance companies associated with the doctor
 			var existingCompanies = await _context.InsuranceCompanies_Doctors
-				.Where(ic => ic.DoctorId == DoctorId)
+				.Where(ic => ic.DoctorId == Doctors.Id)
 				.Select(ic => ic.InsuranceCompanyId.ToString())
 				.ToListAsync();
 
@@ -152,10 +141,12 @@ namespace DoctorApp.Pages.Doctors
 			foreach (var companyId in uncheckedCompanies)
 			{
 				var rowToDelete = await _context.InsuranceCompanies_Doctors
-					.FirstOrDefaultAsync(ic => ic.DoctorId == DoctorId && ic.InsuranceCompanyId.ToString() == companyId);
+					.FirstOrDefaultAsync(ic => ic.DoctorId == Doctors.Id && ic.InsuranceCompanyId.ToString() == companyId);
 				if (rowToDelete != null)
 				{
-					rowToDelete.IsActive = true;
+					rowToDelete.IsActive = false;
+					rowToDelete.DeletedDateTime = DateTime.Now;
+					rowToDelete.DeletedBy = "DefaultUser";
 					_context.InsuranceCompanies_Doctors.Remove(rowToDelete);
 				}
 			}
@@ -167,9 +158,8 @@ namespace DoctorApp.Pages.Doctors
 				_context.InsuranceCompanies_Doctors.Add(new InsuranceCompany_Doctor
 				{
 
-					DoctorId = DoctorId,
+					DoctorId = Doctors.Id,
 					InsuranceCompanyId = Convert.ToInt32(companyId),
-					IsActive = false
 				});
 			}
 
@@ -180,7 +170,6 @@ namespace DoctorApp.Pages.Doctors
 
 			foreach (var address in addresses)
 			{
-				Console.WriteLine(address.Id);
 				if (address.Id != 0)
 				{
 					updatedIds.Add(address.Id);
@@ -194,7 +183,7 @@ namespace DoctorApp.Pages.Doctors
 					existingAddress.FaxAddress != address.FaxAddress
 					)
 					{
-						address.DoctorId = DoctorId;
+						address.DoctorId = Doctors.Id;
 						address.Id = existingAddress.Id;
 						address.ModifiedDateTime = DateTime.Now;
 						_context.Addresses.Update(address);
@@ -202,10 +191,7 @@ namespace DoctorApp.Pages.Doctors
 				}
 				else
 				{
-					Console.WriteLine("add");
-					Console.WriteLine(address.Id);
-					address.DoctorId = DoctorId;
-					address.IsActive = true;
+					address.DoctorId = Doctors.Id;
 					_context.Addresses.Add(address);
 				}
 			}
@@ -213,13 +199,6 @@ namespace DoctorApp.Pages.Doctors
 			if (addressIds != null)
 			{
 				var addressIdsToDelete = addressIds.Except(updatedIds);
-				Console.WriteLine(addressIdsToDelete);
-				Console.WriteLine("delete");
-
-				foreach(var id in addressIdsToDelete)
-				{
-					Console.WriteLine(id);
-				}
 				if (addressIdsToDelete != null)
 				{
 					foreach (var id in addressIdsToDelete)
@@ -227,7 +206,9 @@ namespace DoctorApp.Pages.Doctors
 						var addressToDelete = await _context.Addresses.FindAsync(Convert.ToInt32(id));
 						if (addressToDelete != null)
 						{
-							addressToDelete.IsActive = true;
+							addressToDelete.IsActive = false;
+							addressToDelete.DeletedDateTime = DateTime.Now;
+							addressToDelete.DeletedBy = "DefaultUser";
 							_context.Remove(addressToDelete);
 						}
 					}
@@ -238,18 +219,6 @@ namespace DoctorApp.Pages.Doctors
 
 
 			return RedirectToPage(nameof(Index));
-		}
-
-
-		public class JoinedResult
-		{
-			public int Id { get; set; }
-			public string DrFName { get; set; }
-			public string DrLName { get; set; }
-			public string SpecialityName { get; set; }
-			public string EmailPersonal { get; set; }
-			public string EmailWork { get; set; }
-			public string PersonalCell { get; set; }
 		}
 
 		public class JoinedInsuranceCompany

@@ -2,6 +2,8 @@ using DoctorApp.Data;
 using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using DoctorApp.Utilities;
 
 namespace DoctorApp.Pages.Specialties
 {
@@ -26,10 +28,27 @@ namespace DoctorApp.Pages.Specialties
 			{
 				return Page();
 			}
+
+			var existingSpecialty = await _context.Specialties
+				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName))
+				.FirstOrDefaultAsync();
+
+			if(existingSpecialty != null)
+			{
+				ModelState.AddModelError("Specialties.SpecialityName", "Specialty Name already exists");
+				return Page();
+			}
+
 			// Set additional properties
-			Specialties.DeletedBy = "joyce";
 			Specialties.CreatedBy = "joyce";
-			Specialties.IsActive = false;
+			Specialties.SpecialityName = StringExtensions.
+				CapitalizeFirstLetter(Specialties.SpecialityName);
+
+			if(Specialties.SpecialityName.ToUpper() == "ENT")
+			{
+				Specialties.SpecialityName = StringExtensions.CapitalizeLetters
+					(Specialties.SpecialityName);
+			}
 
 			// Add the specialty to the context and save changes
 			_context.Specialties.Add(Specialties);

@@ -19,13 +19,6 @@
 				<input type="submit" value="Create" class="btn btn-primary" />
 				<a class="btn btn-success" asp-page="Index">Specialty List</a>
 			</div>
-			@foreach (var key in ViewData.ModelState.Keys)
-			{
-				foreach (var error in ViewData.ModelState[key].Errors)
-				{
-					<div>@error.ErrorMessage</div>
-				}
-			}
 		</form>
 	</div>
 </div>

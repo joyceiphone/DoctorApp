@@ -3,6 +3,7 @@ using DoctorApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using DoctorApp.Utilities;
 
 namespace DoctorApp.Pages.Insurance
 {
@@ -38,8 +39,21 @@ namespace DoctorApp.Pages.Insurance
 			{
 				return Page();
 			}
+
+			var existingInsuranceCompanyName = await _context.InsuranceCompanies
+				.Where(i => EF.Functions.Like(i.CompanyName, InsuranceCompanies.CompanyName))
+				.FirstOrDefaultAsync();
+
+			if (existingInsuranceCompanyName != null)
+			{
+				ModelState.AddModelError("InsuranceCompanies.CompanyName", "Insurance Company Name already exists");
+				return Page();
+			}
+
 			InsuranceCompanies.ModifiedDateTime = DateTime.Now;
 			InsuranceCompanies.ModifiedBy = "test";
+			InsuranceCompanies.CompanyName = StringExtensions
+				.CapitalizeLetters(InsuranceCompanies.CompanyName);
 
 			_context.InsuranceCompanies.Update(InsuranceCompanies);
 			await _context.SaveChangesAsync();

@@ -73,7 +73,7 @@ namespace DoctorApp.Pages.Doctors
 			{
 				return NotFound();
 			}
-			doctor.IsActive = true;
+			doctor.IsActive = false;
 			Doctors = doctor;
 			_context.Doctors.Remove(Doctors);
 
@@ -85,7 +85,7 @@ namespace DoctorApp.Pages.Doctors
 			{
 				foreach(var companyDoctor in insuranceCompanyDoctors)
 				{
-					companyDoctor.IsActive = true;
+					companyDoctor.IsActive = false;
 				}
 				_context.InsuranceCompanies_Doctors.RemoveRange(insuranceCompanyDoctors);
 			}
@@ -97,7 +97,7 @@ namespace DoctorApp.Pages.Doctors
 				foreach (var address in Addresses)
 				{
 					address.DeletedDateTime = DateTime.Now;
-					address.IsActive = true;
+					address.IsActive = false;
 					_context.Addresses.Remove(address);
 				}
 			}

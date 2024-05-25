@@ -15,7 +15,7 @@ namespace DoctorApp.Models
 		public string DrFName { get; set; }
 		public string DrLName { get; set; }
 		public string? DrMName { get; set; }
-		public int SpecialityID { get; set; }
+		public int? SpecialityID { get; set; }
 
 		[RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Your Email is not valid.")]
 		public string? EmailPersonal { get; set; }
@@ -31,7 +31,7 @@ namespace DoctorApp.Models
 		public string CreatedBy { get; set; }
 		public DateTime ModifiedDateTime { get; set; }
 		public string ModifiedBy { get; set; }
-		public bool? IsActive { get; set; }
+		public bool IsActive { get; set; } = true;
 		public DateTime? DeletedDateTime { get; set; }
 		public string? DeletedBy { get; set; }
 		public ICollection<InsuranceCompany> InsuranceCompanies { get; } = new List<InsuranceCompany>();

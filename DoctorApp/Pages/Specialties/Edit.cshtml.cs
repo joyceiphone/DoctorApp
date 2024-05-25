@@ -38,6 +38,17 @@ namespace DoctorApp.Pages.Specialties
 			{
 				return Page();
 			}
+
+			var existingSpecialty = await _context.Specialties
+				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName))
+				.FirstOrDefaultAsync();
+
+			if (existingSpecialty != null)
+			{
+				ModelState.AddModelError("Specialties.SpecialityName", "Specialty Name already exists");
+				return Page();
+			}
+
 			Specialties.ModifiedDateTime = DateTime.Now;
 			Specialties.ModifiedBy = "test";
 			_context.Specialties.Update(Specialties);

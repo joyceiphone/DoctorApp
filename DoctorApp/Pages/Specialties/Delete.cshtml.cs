@@ -38,14 +38,21 @@ namespace DoctorApp.Pages.Specialties
 			{
 				return NotFound();
 			}
-			var specialty = await _context.Specialties.FindAsync(itemid);
+			var specialty = await _context.Specialties
+				.Include(s => s.Doctors)
+				.FirstOrDefaultAsync(s => s.Id == itemid);
+
 			if (specialty == null)
 			{
 				return NotFound();
 			}
-			specialty.IsActive = true;
+
+			specialty.IsActive = false;
+			specialty.DeletedBy = "DefaultUser";
+			specialty.DeletedDateTime = DateTime.Now;
+
 			Specialties = specialty;
-			_context.Remove(specialty);
+			_context.Update(specialty);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}

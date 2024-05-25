@@ -21,7 +21,8 @@ namespace DoctorApp.Pages.Insurance
 		{
 			if (_context.Specialties != null)
 			{
-				InsuranceCompanies = await _context.InsuranceCompanies.ToListAsync();
+				InsuranceCompanies = await _context.InsuranceCompanies.
+					Where(i=> i.IsActive == true).ToListAsync();
 			}
 		}
 	}

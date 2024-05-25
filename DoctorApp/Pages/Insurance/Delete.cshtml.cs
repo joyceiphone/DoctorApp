@@ -43,9 +43,13 @@ namespace DoctorApp.Pages.Insurance
 			{
 				return NotFound();
 			}
-			insurance.IsActive = true;
+
+			insurance.IsActive = false;
+			insurance.DeletedDateTime = DateTime.Now;
+			insurance.DeletedBy = "DefaultUser";
+
 			InsuranceCompanies = insurance;
-			_context.Remove(insurance);
+			_context.Update(insurance);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}
