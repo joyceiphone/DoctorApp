@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DoctorApp.Models
@@ -12,8 +13,14 @@ namespace DoctorApp.Models
 		}
 		[Key]
 		public int Id { get; set; }
+
+		[DisplayName("First Name")]
 		public string DrFName { get; set; }
+
+		[DisplayName("Last Name")]
 		public string DrLName { get; set; }
+
+		[DisplayName("Middle Name")]
 		public string? DrMName { get; set; }
 		public int? SpecialityID { get; set; }
 
