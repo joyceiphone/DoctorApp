@@ -54,7 +54,7 @@ namespace DoctorApp.Pages.Doctors
 
 			}
 
-			Options = await _context.Specialties.Where(s => s.IsActive == true).Select(a =>
+			Options = await _context.Specialties.Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),
@@ -72,7 +72,7 @@ namespace DoctorApp.Pages.Doctors
 										}
 										).Select(ic => ic.CompanyName).ToListAsync();
 
-			Companies = await _context.InsuranceCompanies.Where(i => i.IsActive == true).Select(a =>
+			Companies = await _context.InsuranceCompanies.Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),

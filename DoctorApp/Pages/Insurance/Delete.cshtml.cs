@@ -49,7 +49,7 @@ namespace DoctorApp.Pages.Insurance
 			insurance.DeletedBy = "DefaultUser";
 
 			InsuranceCompanies = insurance;
-			_context.Update(insurance);
+			_context.Remove(insurance);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}

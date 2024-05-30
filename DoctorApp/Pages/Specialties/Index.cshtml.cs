@@ -21,7 +21,8 @@ namespace DoctorApp.Pages.Specialties
 		{
 			if (_context.Specialties != null)
 			{
-				Specialties = await _context.Specialties.Where(s => s.IsActive == true).ToListAsync();
+				Specialties = await _context.Specialties
+					.Include(s=>s.Doctors).ToListAsync();
 			}
 		}
 

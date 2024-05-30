@@ -36,11 +36,18 @@
 					</td>
 					<td>
 						@Html.DisplayFor(item => specialty.SpecialityName)
+						<sup style="color: red;">@Html.DisplayFor(item => specialty.Doctors.Count)</sup>
 					</td>
 					<td>
 						<a asp-page="./Edit" asp-route-itemid="@specialty.Id" class="btn btn-primary">Edit</a>
 						<a asp-page="./Details" asp-route-itemid="@specialty.Id" class="btn btn-success">Details</a>
-						<a asp-page="./Delete" asp-route-itemid="@specialty.Id" class="btn btn-danger">Delete</a>
+						@if(specialty.Doctors.Count > 0)
+						{
+							<button disabled class="btn btn-danger">Delete</button>
+						} else
+						{
+							<a asp-page="./Delete" asp-route-itemid="@specialty.Id" disabled="@(specialty.Doctors.Count > 0)" class="btn btn-danger">Delete</a>
+						}
 					</td>
 				</tr>
 			}

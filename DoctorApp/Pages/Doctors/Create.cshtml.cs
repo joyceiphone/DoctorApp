@@ -44,14 +44,14 @@ namespace DoctorApp.Pages.Doctors
 			{
 				Addresses.Add(new Address());
 			}
-			Options = await _context.Specialties.Where(s => s.IsActive == true).Select(a =>
+			Options = await _context.Specialties.Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
 									  Text = a.SpecialityName
 								  }).ToListAsync();
 
-			Companies = await _context.InsuranceCompanies.Where(i => i.IsActive == true).Select(a =>
+			Companies = await _context.InsuranceCompanies.Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
