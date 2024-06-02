@@ -59,7 +59,8 @@ namespace DoctorApp.Pages.Doctors
 
 			JoinedResults = doctor; // Assign the doctor to the JoinedResult property
 
-			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			Addresses = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive == true).ToListAsync();
 			return Page();
 		}
 	}

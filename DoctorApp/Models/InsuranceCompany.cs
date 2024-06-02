@@ -10,8 +10,6 @@ namespace DoctorApp.Models
 		{
 			CreatedBy = "DefaultUser"; // Set default value for CreatedBy
 			ModifiedBy = "DefaultUser";
-			CreatedDateTime = DateTime.Now;
-			ModifiedDateTime = DateTime.Now;
 		}
 		[Key]
 		public int Id { get; set; }

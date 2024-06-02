@@ -52,7 +52,7 @@ namespace DoctorApp.Pages.Specialties
 			specialty.DeletedDateTime = DateTime.Now;
 
 			Specialties = specialty;
-			_context.Remove(Specialties);
+			_context.Update(specialty);
 			await _context.SaveChangesAsync();
 			return RedirectToPage(nameof(Index));
 		}

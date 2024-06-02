@@ -79,7 +79,8 @@ namespace DoctorApp.Pages.Doctors
 						  Text = a.CompanyName
 					  }).ToListAsync();
 
-			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			Addresses = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive == true).ToListAsync();
 
 			if (Addresses == null)
 			{
@@ -163,7 +164,8 @@ namespace DoctorApp.Pages.Doctors
 				});
 			}
 
-			var addressIds = await _context.Addresses.Where(p => p.DoctorId == itemid)
+			var addressIds = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive == true)
 				.Select(p => p.Id).ToListAsync();
 
 			var updatedIds = new List<int>();
@@ -209,7 +211,7 @@ namespace DoctorApp.Pages.Doctors
 							addressToDelete.IsActive = false;
 							addressToDelete.DeletedDateTime = DateTime.Now;
 							addressToDelete.DeletedBy = "DefaultUser";
-							_context.Remove(addressToDelete);
+							_context.Update(addressToDelete);
 						}
 					}
 				}

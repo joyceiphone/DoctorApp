@@ -97,8 +97,9 @@ namespace DoctorApp.Pages.Doctors
 				foreach (var address in Addresses)
 				{
 					address.DeletedDateTime = DateTime.Now;
+					address.DeletedBy = "DefaultUser";
 					address.IsActive = false;
-					_context.Addresses.Remove(address);
+					_context.Addresses.Update(address);
 				}
 			}
 

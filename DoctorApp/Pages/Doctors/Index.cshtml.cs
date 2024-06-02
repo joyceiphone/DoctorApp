@@ -130,7 +130,8 @@ namespace DoctorApp.Pages.Doctors
 												  DrFName = t1.DrFName,
 												  DrLName = t1.DrLName,
 												  SpecialityName = t2.SpecialityName,
-												  Addresses = addresses.Any() ? addresses.ToList() : null,
+												  Addresses = addresses.Any() ? 
+												  addresses.Where(a => a.IsActive == true).ToList() : null,
 											  }).ToListAsync();
 
 					foreach (var item in checkedItems)
