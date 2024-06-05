@@ -40,48 +40,24 @@ namespace DoctorApp.Data
 				.Property(s => s.CreatedDateTime)
 				.HasDefaultValueSql("GETDATE()");
 
-			modelBuilder.Entity<Doctor>()
-					.Property(s => s.ModifiedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
 			modelBuilder.Entity<Address>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
-			modelBuilder.Entity<Address>()
-					.Property(s => s.ModifiedDateTime)
 					.HasDefaultValueSql("GETDATE()");
 
 			modelBuilder.Entity<InsuranceCompany>()
 					.Property(s => s.CreatedDateTime)
 					.HasDefaultValueSql("GETDATE()");
 
-			modelBuilder.Entity<InsuranceCompany>()
-					.Property(s => s.ModifiedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
 			modelBuilder.Entity<InsuranceCompany_Doctor>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
-			modelBuilder.Entity<InsuranceCompany_Doctor>()
-					.Property(s => s.ModifiedDateTime)
 					.HasDefaultValueSql("GETDATE()");
 
 			modelBuilder.Entity<ReferralLetter>()
 					.Property(s => s.CreatedDateTime)
 					.HasDefaultValueSql("GETDATE()");
 
-			modelBuilder.Entity<ReferralLetter>()
-					.Property(s => s.ModifiedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
 			modelBuilder.Entity<Specialty>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
-
-			modelBuilder.Entity<Specialty>()
-					.Property(s => s.ModifiedDateTime)
 					.HasDefaultValueSql("GETDATE()");
 
 			//one to many

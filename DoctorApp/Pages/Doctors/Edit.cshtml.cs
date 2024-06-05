@@ -127,6 +127,7 @@ namespace DoctorApp.Pages.Doctors
 			}
 
 			doctors.ModifiedDateTime = DateTime.Now;
+			doctors.ModifiedBy = "DefaultUser";
 			_context.Doctors.Update(doctors);
 
 			// Get the list of checked insurance companies
@@ -192,6 +193,7 @@ namespace DoctorApp.Pages.Doctors
 						address.DoctorId = Doctors.Id;
 						address.Id = existingAddress.Id;
 						address.ModifiedDateTime = DateTime.Now;
+						address.ModifiedBy = "DefaultUser";
 						_context.Addresses.Update(address);
 					}
 				}

@@ -7,8 +7,7 @@ namespace DoctorApp.Models
 	{
 		public Address()
 		{
-			CreatedBy = "DefaultUser"; // Set default value for CreatedBy
-			ModifiedBy = "DefaultUser";
+			CreatedBy = "DefaultUser";
 		}
 		[Key]
 		public int Id { get; set; }
@@ -27,8 +26,8 @@ namespace DoctorApp.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
 		public string CreatedBy { get; set; }
-		public DateTime ModifiedDateTime { get; set; }
-		public string ModifiedBy { get; set; }
+		public DateTime? ModifiedDateTime { get; set; }
+		public string? ModifiedBy { get; set; }
 		public bool IsActive { get; set; } = true;
 		public DateTime? DeletedDateTime { get; set; }
 		public string? DeletedBy { get; set; }

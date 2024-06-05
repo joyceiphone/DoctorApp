@@ -29,7 +29,7 @@ namespace DoctorApp.Pages.Insurance
 				InsuranceCompanies = await _context.InsuranceCompanies.
 					Include(i=>i.Doctors).Where(i=>i.IsActive).ToListAsync();
 
-				InsuranceCompaniesDoctors = await (from t1 in _context.Doctors
+				var insuranceCompanyDoctors = await (from t1 in _context.Doctors
 												   join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
 												   join t3 in _context.InsuranceCompanies on t2.InsuranceCompanyId equals t3.Id
 												   group new { t2 } by new { t3.Id, t3.CompanyName } into g
@@ -39,6 +39,26 @@ namespace DoctorApp.Pages.Insurance
 													   CompanyName = g.Key.CompanyName,
 													   IsActiveCount = g.Count(x => x.t2.IsActive),
 												   }).ToListAsync();
+				var activeInsuranceCompanies = await (from t3 in _context.InsuranceCompanies
+													  where t3.IsActive
+													  select new JoinedResultModel
+													  {
+														  Id = t3.Id,
+														  CompanyName = t3.CompanyName,
+														  IsActiveCount = 0,
+													  }).ToListAsync();
+
+				InsuranceCompaniesDoctors = insuranceCompanyDoctors.Concat(activeInsuranceCompanies)
+											.GroupBy(x => x.Id)
+											.Select(g => new JoinedResultModel
+											{
+											 Id = g.Key,
+											 CompanyName = g.First().CompanyName,
+											 IsActiveCount = g.Sum(x => x.IsActiveCount),
+											})
+											.OrderBy(x => x.Id)
+											.ToList();
+
 			}
 		}
 	}

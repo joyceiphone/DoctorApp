@@ -8,7 +8,6 @@ namespace DoctorApp.Models
 		public InsuranceCompany_Doctor()
 		{
 			CreatedBy = "DefaultUser";
-			ModifiedBy = "DefaultUser";
 		}
 
 		[Key]
@@ -19,8 +18,8 @@ namespace DoctorApp.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime CreatedDateTime { get; set; }
 		public string CreatedBy { get; set; }
-		public DateTime ModifiedDateTime { get; set; }
-		public string ModifiedBy { get; set; }
+		public DateTime? ModifiedDateTime { get; set; }
+		public string? ModifiedBy { get; set; }
 		public bool IsActive { get; set; } = true;
 		public DateTime? DeletedDateTime { get; set; }
 		public string? DeletedBy { get; set; }

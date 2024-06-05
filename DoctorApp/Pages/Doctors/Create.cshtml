@@ -219,10 +219,10 @@
 				return specialtyCount > 0;
 			}
 
-			$('form').submit(function () {
+			$('form').submit(function (event) {
 				if (!checkSpecialtyRowCount()) {
 					alert('Please add specialty on the Specialty Page.')
-					return;
+					event.preventDefault();
 				}
 			})
 		})
