@@ -46,6 +46,7 @@ namespace DoctorApp.Pages.Doctors
 			JoinedResult = await (from t1 in _context.Doctors
 								  join t2 in _context.Specialties
 								  on t1.SpecialityID equals t2.Id
+								  where t1.IsActive
 								  select new JoinedResultModel
 								  {
 									  Id = t1.Id,
@@ -74,6 +75,7 @@ namespace DoctorApp.Pages.Doctors
 					JoinedResult = await (from t1 in _context.Doctors
 										  join t2 in _context.Specialties
 										  on t1.SpecialityID equals t2.Id
+										  where t1.IsActive
 										  select new JoinedResultModel
 										  {
 											  Id = t1.Id,
@@ -87,7 +89,7 @@ namespace DoctorApp.Pages.Doctors
 					JoinedResult = await (from t1 in _context.Doctors
 										  join t2 in _context.Specialties
 										  on t1.SpecialityID equals t2.Id
-										  where t1.SpecialityID == selectedId
+										  where t1.SpecialityID == selectedId & t1.IsActive
 										  select new JoinedResultModel
 										  {
 											  Id = t1.Id,
@@ -102,6 +104,7 @@ namespace DoctorApp.Pages.Doctors
 				JoinedResult = await (from t1 in _context.Doctors
 									  join t2 in _context.Specialties
 									  on t1.SpecialityID equals t2.Id
+									  where t1.IsActive
 									  select new JoinedResultModel
 									  {
 										  Id = t1.Id,
@@ -123,7 +126,7 @@ namespace DoctorApp.Pages.Doctors
 					var checkedItems = await (from t1 in _context.Doctors
 											  join t2 in _context.Specialties on t1.SpecialityID equals t2.Id
 											  join t3 in _context.Addresses on t1.Id equals t3.DoctorId into addresses
-											  where checkedIds.Contains(t1.Id.ToString())
+											  where checkedIds.Contains(t1.Id.ToString()) & t1.IsActive
 											  select new JoinedResultModel
 											  {
 												  Id = t1.Id,
@@ -131,7 +134,7 @@ namespace DoctorApp.Pages.Doctors
 												  DrLName = t1.DrLName,
 												  SpecialityName = t2.SpecialityName,
 												  Addresses = addresses.Any() ? 
-												  addresses.Where(a => a.IsActive == true).ToList() : null,
+												  addresses.Where(a => a.IsActive).ToList() : null,
 											  }).ToListAsync();
 
 					foreach (var item in checkedItems)

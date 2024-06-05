@@ -36,12 +36,12 @@ namespace DoctorApp.Pages.Doctors
 			InsuranceCompanies = await (from t1 in _context.Doctors
 										join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
 										join t3 in _context.InsuranceCompanies on t2.InsuranceCompanyId equals t3.Id
-										where t1.Id == itemid
+										where t1.Id == itemid & t1.IsActive & t2.IsActive & t3.IsActive
 										select t3.CompanyName).ToListAsync();
 
 			var doctor = await (from t1 in _context.Doctors
 								join t2 in _context.Specialties on t1.SpecialityID equals t2.Id
-								where t1.Id == itemid
+								where t1.Id == itemid && t1.IsActive
 								select new JoinedResult
 								{
 									Id = t1.Id,
@@ -58,7 +58,8 @@ namespace DoctorApp.Pages.Doctors
 				return NotFound();
 			}
 
-			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			Addresses = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive).ToListAsync();
 			JoinedResults = doctor;
 			return Page();
 		}
@@ -74,11 +75,13 @@ namespace DoctorApp.Pages.Doctors
 				return NotFound();
 			}
 			doctor.IsActive = false;
+			doctor.DeletedDateTime = DateTime.Now;
+			doctor.DeletedBy = "DefaultUser";
 			Doctors = doctor;
-			_context.Doctors.Remove(Doctors);
+			_context.Doctors.Update(Doctors);
 
 			var insuranceCompanyDoctors = await _context.InsuranceCompanies_Doctors
-				.Where(p => p.DoctorId == itemid)
+				.Where(p => p.DoctorId == itemid && p.IsActive)
 				.ToListAsync();
 
 			if(insuranceCompanyDoctors != null)
@@ -86,11 +89,14 @@ namespace DoctorApp.Pages.Doctors
 				foreach(var companyDoctor in insuranceCompanyDoctors)
 				{
 					companyDoctor.IsActive = false;
+					companyDoctor.DeletedDateTime = DateTime.Now;
+					companyDoctor.DeletedBy = "DefaultUser";
 				}
-				_context.InsuranceCompanies_Doctors.RemoveRange(insuranceCompanyDoctors);
+				_context.InsuranceCompanies_Doctors.UpdateRange(insuranceCompanyDoctors);
 			}
 
-			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			Addresses = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive).ToListAsync();
 
 			if (Addresses != null)
 			{

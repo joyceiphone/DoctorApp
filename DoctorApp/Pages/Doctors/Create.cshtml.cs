@@ -44,14 +44,14 @@ namespace DoctorApp.Pages.Doctors
 			{
 				Addresses.Add(new Address());
 			}
-			Options = await _context.Specialties.Select(a =>
+			Options = await _context.Specialties.Where(s=>s.IsActive).Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
 									  Text = a.SpecialityName
 								  }).ToListAsync();
 
-			Companies = await _context.InsuranceCompanies.Select(a =>
+			Companies = await _context.InsuranceCompanies.Where(i => i.IsActive).Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
@@ -72,8 +72,6 @@ namespace DoctorApp.Pages.Doctors
 				return Page();
 			}
 
-			Doctors.ModifiedBy = "joyce";
-			Doctors.CreatedBy = "joyce";
 			_context.Doctors.Add(Doctors);
 
 			await _context.SaveChangesAsync();
@@ -90,9 +88,6 @@ namespace DoctorApp.Pages.Doctors
 					DoctorId = newDoctorId,
 
 				};
-
-				insuranceCompanyDoctor.ModifiedBy = "joyce";
-				insuranceCompanyDoctor.CreatedBy = "joyce";
 
 				_context.InsuranceCompanies_Doctors.Add(insuranceCompanyDoctor);
 				await _context.SaveChangesAsync();

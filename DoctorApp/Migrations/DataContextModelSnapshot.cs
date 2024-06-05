@@ -474,13 +474,13 @@ namespace DoctorApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4099f900-902c-4ccf-a000-048bcf82f274",
+                            Id = "e492063f-c1bf-4781-a23e-0e1e42e3167b",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "d4164b7d-3a2d-4f16-aee4-caf599295822",
+                            Id = "e535a4ea-16b9-4081-8aed-f9ce74586b17",
                             Name = "client",
                             NormalizedName = "client"
                         });

@@ -39,7 +39,6 @@ namespace DoctorApp.Pages.Insurance
 			}
 
 			// Set additional properties
-			InsuranceCompanies.CreatedBy = "joyce";
 			InsuranceCompanies.CompanyName = StringExtensions
 				.CapitalizeLetters(InsuranceCompanies.CompanyName);
 

@@ -54,7 +54,7 @@ namespace DoctorApp.Pages.Doctors
 
 			}
 
-			Options = await _context.Specialties.Select(a =>
+			Options = await _context.Specialties.Where(s => s.IsActive).Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),
@@ -64,7 +64,7 @@ namespace DoctorApp.Pages.Doctors
 			InsuranceCompanies = await (from t1 in _context.Doctors
 										join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
 										join t3 in _context.InsuranceCompanies on t2.InsuranceCompanyId equals t3.Id
-										where t1.Id == itemid
+										where t1.Id == itemid & t1.IsActive & t2.IsActive & t3.IsActive
 										select new JoinedInsuranceCompany
 										{
 											Id = t2.Id,
@@ -72,7 +72,8 @@ namespace DoctorApp.Pages.Doctors
 										}
 										).Select(ic => ic.CompanyName).ToListAsync();
 
-			Companies = await _context.InsuranceCompanies.Select(a =>
+			Companies = await _context.InsuranceCompanies
+				.Where(i => i.IsActive).Select(a =>
 					  new SelectListItem
 					  {
 						  Value = a.Id.ToString(),
@@ -80,7 +81,7 @@ namespace DoctorApp.Pages.Doctors
 					  }).ToListAsync();
 
 			Addresses = await _context.Addresses
-				.Where(p => p.DoctorId == itemid && p.IsActive == true).ToListAsync();
+				.Where(p => p.DoctorId == itemid && p.IsActive).ToListAsync();
 
 			if (Addresses == null)
 			{
@@ -98,7 +99,8 @@ namespace DoctorApp.Pages.Doctors
 		public async Task<IActionResult> OnGetAddRow()
 		{
 			int? itemid = Request.RouteValues["itemid"] as int?;
-			Addresses = await _context.Addresses.Where(p => p.DoctorId == itemid).ToListAsync();
+			Addresses = await _context.Addresses
+				.Where(p => p.DoctorId == itemid && p.IsActive).ToListAsync();
 			if (Addresses != null)
 			{
 				foreach (var Address in Addresses)
@@ -124,7 +126,6 @@ namespace DoctorApp.Pages.Doctors
 				return Page();
 			}
 
-			doctors.ModifiedBy = "joyce";
 			doctors.ModifiedDateTime = DateTime.Now;
 			_context.Doctors.Update(doctors);
 
@@ -133,7 +134,7 @@ namespace DoctorApp.Pages.Doctors
 
 			// Get the previously stored list of insurance companies associated with the doctor
 			var existingCompanies = await _context.InsuranceCompanies_Doctors
-				.Where(ic => ic.DoctorId == Doctors.Id)
+				.Where(ic => ic.DoctorId == Doctors.Id && ic.IsActive)
 				.Select(ic => ic.InsuranceCompanyId.ToString())
 				.ToListAsync();
 
@@ -141,14 +142,18 @@ namespace DoctorApp.Pages.Doctors
 			var uncheckedCompanies = existingCompanies.Except(checkedCompanies);
 			foreach (var companyId in uncheckedCompanies)
 			{
-				var rowToDelete = await _context.InsuranceCompanies_Doctors
-					.FirstOrDefaultAsync(ic => ic.DoctorId == Doctors.Id && ic.InsuranceCompanyId.ToString() == companyId);
+				var rowToDelete = await _context
+					.InsuranceCompanies_Doctors
+					.FirstOrDefaultAsync(ic => ic.DoctorId == Doctors.Id
+					&& ic.InsuranceCompanyId.ToString() == companyId
+					&& ic.IsActive
+					);
 				if (rowToDelete != null)
 				{
 					rowToDelete.IsActive = false;
 					rowToDelete.DeletedDateTime = DateTime.Now;
 					rowToDelete.DeletedBy = "DefaultUser";
-					_context.InsuranceCompanies_Doctors.Remove(rowToDelete);
+					_context.InsuranceCompanies_Doctors.Update(rowToDelete);
 				}
 			}
 
@@ -158,14 +163,13 @@ namespace DoctorApp.Pages.Doctors
 			{
 				_context.InsuranceCompanies_Doctors.Add(new InsuranceCompany_Doctor
 				{
-
 					DoctorId = Doctors.Id,
 					InsuranceCompanyId = Convert.ToInt32(companyId),
 				});
 			}
 
 			var addressIds = await _context.Addresses
-				.Where(p => p.DoctorId == itemid && p.IsActive == true)
+				.Where(p => p.DoctorId == itemid && p.IsActive)
 				.Select(p => p.Id).ToListAsync();
 
 			var updatedIds = new List<int>();

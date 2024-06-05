@@ -54,13 +54,13 @@ namespace DoctorApp.Pages.Doctors
 			InsuranceCompanies = await (from t1 in _context.Doctors
 										join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
 										join t3 in _context.InsuranceCompanies on t2.InsuranceCompanyId equals t3.Id
-										where t1.Id == itemid
+										where t1.Id == itemid & t1.IsActive & t2.IsActive & t3.IsActive
 										select t3.CompanyName).ToListAsync();
 
 			JoinedResults = doctor; // Assign the doctor to the JoinedResult property
 
 			Addresses = await _context.Addresses
-				.Where(p => p.DoctorId == itemid && p.IsActive == true).ToListAsync();
+				.Where(p => p.DoctorId == itemid && p.IsActive).ToListAsync();
 			return Page();
 		}
 	}

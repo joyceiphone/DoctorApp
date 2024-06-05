@@ -338,8 +338,8 @@ namespace DoctorApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4099f900-902c-4ccf-a000-048bcf82f274", null, "admin", "admin" },
-                    { "d4164b7d-3a2d-4f16-aee4-caf599295822", null, "client", "client" }
+                    { "e492063f-c1bf-4781-a23e-0e1e42e3167b", null, "admin", "admin" },
+                    { "e535a4ea-16b9-4081-8aed-f9ce74586b17", null, "client", "client" }
                 });
 
             migrationBuilder.CreateIndex(
