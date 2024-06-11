@@ -14,7 +14,9 @@
 	<div class="mb-4 d-flex">
 		<select class="form-select form-select-sm" asp-for="selectedId" asp-items="Model.Options">
 		</select>
-		<button class="primary mx-2 btn btn-primary" name="command" value="FilterAction" type="submit">Filter</button>
+		<button class="primary mx-2 btn btn-primary" name="command" value="FilterAction" type="submit">
+			Filter
+		</button>
 	</div>
 
 	<div>
@@ -77,9 +79,58 @@
 		</table>
 
 		<hr />
+		<!-- Print Modal -->
+
+		<div id="printModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header flex justify-content-center">
+						<h4 style="text-align:center;">Enter Patient Account number</h4>
+					</div>
+					<div class="modal-body mb-4">
+						<div class="row mb-4 m-1">
+							<label class="col-md-3 col-form-label">Patient Acc</label>
+							<div class="col-sm-8">
+								<input asp-for="PtAccNum" class="form-control" />
+								<span asp-validation-for="PtAccNum" class="text-danger"></span>
+							</div>
+						</div>
+						<div style="display: flex; justify-content: space-between" class="mx-2">
+							<button type="submit" name="command" id="printItem" value="PrintCheckedItems" class="btn btn-primary px-4">Print</button>
+							<button type="button" id="cancelModal" class="btn btn-secondary px-4" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Ensure the Print button is within the form -->
 		<p>
-			<button type="submit" name="command" value="PrintCheckedItems" class="btn btn-primary">Print</button>
+			<button id="print" class="btn btn-primary">Print</button>
 		</p>
 	</div>
 </form>
+
+@section Scripts{
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+
+	<script>
+		$('document').ready(function () {
+			$('#print').click(function (e) {
+				e.preventDefault();
+				$('#printModal').modal('show');
+			})
+			$('#cancelModal').click(function (e) {
+				//e.preventDefault();
+				$('#printModal').modal('hide');
+			})
+			$('#printItem').click(function (e) {
+				setTimeout(() => {
+					$('#printModal').modal('hide');
+				}, 1000);
+			})
+		})
+	</script>
+}

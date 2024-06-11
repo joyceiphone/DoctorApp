@@ -109,12 +109,12 @@
 				var addressItemCount = $('.address-item').length;
 				if (addressItemCount >= 4 && increase) {
 					$('#addRow').prop('disabled', true);
-				} else if(increase){
+				} else if (increase) {
 					$('#addRow').prop('disabled', false);
 				}
 				if (addressItemCount < 5 && !increase) {
 					$('#addRow').prop('disabled', false);
-				} else if (!increase) { 
+				} else if (!increase) {
 					$('#addRow').prop('disabled', true);
 				}
 			}

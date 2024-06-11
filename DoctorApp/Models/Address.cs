@@ -16,6 +16,8 @@ namespace DoctorApp.Models
 		public string? Street2 { get; set; }
 		public string ZipCode { get; set; }
 		public string City { get; set; }
+
+		[RegularExpression("^[A-Z]{2}$", ErrorMessage = "State is required.")]
 		public string State { get; set; }
 
 		[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format XXX-XXX-XXXX.")]

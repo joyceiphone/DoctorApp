@@ -44,12 +44,16 @@ namespace DoctorApp.Pages.Doctors
 			{
 				Addresses.Add(new Address());
 			}
-			Options = await _context.Specialties.Where(s=>s.IsActive).Select(a =>
-								  new SelectListItem
-								  {
-									  Value = a.Id.ToString(),
-									  Text = a.SpecialityName
-								  }).ToListAsync();
+			Options =
+			[
+				new SelectListItem { Value = "", Text = "Select Specialty" },
+				.. await _context.Specialties.Where(s=>s.IsActive).Select(a =>
+									  new SelectListItem
+									  {
+										  Value = a.Id.ToString(),
+										  Text = a.SpecialityName
+									  }).ToListAsync(),
+			];
 
 			Companies = await _context.InsuranceCompanies.Where(i => i.IsActive).Select(a =>
 								  new SelectListItem
@@ -67,6 +71,11 @@ namespace DoctorApp.Pages.Doctors
 
 		public async Task<IActionResult> OnPost(List<Address> addresses)
 		{
+			if (Doctors.SpecialityID == null)
+			{
+				ModelState.AddModelError("Doctors.SpecialityID", "Specialty is required");
+			}
+
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
 				return Page();

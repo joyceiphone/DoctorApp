@@ -1,4 +1,6 @@
-﻿namespace DoctorApp.Utilities
+﻿using System.Text;
+
+namespace DoctorApp.Utilities
 {
 	public static class StringExtensions
 	{

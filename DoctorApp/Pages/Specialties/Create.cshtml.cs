@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DoctorApp.Utilities;
+using System.Text.RegularExpressions;
 
 namespace DoctorApp.Pages.Specialties
 {
@@ -30,7 +31,7 @@ namespace DoctorApp.Pages.Specialties
 			}
 
 			var existingSpecialty = await _context.Specialties
-				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName))
+				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName) & s.IsActive)
 				.FirstOrDefaultAsync();
 
 			if(existingSpecialty != null)
@@ -42,7 +43,7 @@ namespace DoctorApp.Pages.Specialties
 			// Set additional properties
 			Specialties.CreatedBy = "joyce";
 			Specialties.SpecialityName = StringExtensions.
-				CapitalizeFirstLetter(Specialties.SpecialityName);
+				CapitalizeFirstLetter(Specialties.SpecialityName).Trim();
 
 			if(Specialties.SpecialityName.ToUpper() == "ENT")
 			{

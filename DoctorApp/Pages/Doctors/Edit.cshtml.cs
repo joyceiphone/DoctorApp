@@ -54,12 +54,15 @@ namespace DoctorApp.Pages.Doctors
 
 			}
 
-			Options = await _context.Specialties.Where(s => s.IsActive).Select(a =>
-					  new SelectListItem
-					  {
-						  Value = a.Id.ToString(),
-						  Text = a.SpecialityName
-					  }).ToListAsync();
+			Options = [
+				new SelectListItem { Value = "", Text = "Select Specialty" },
+				.. await _context.Specialties.Where(s=>s.IsActive).Select(a =>
+									  new SelectListItem
+									  {
+										  Value = a.Id.ToString(),
+										  Text = a.SpecialityName
+									  }).ToListAsync(),
+			];
 
 			InsuranceCompanies = await (from t1 in _context.Doctors
 										join t2 in _context.InsuranceCompanies_Doctors on t1.Id equals t2.DoctorId
@@ -121,6 +124,11 @@ namespace DoctorApp.Pages.Doctors
 
 		public async Task<IActionResult> OnPost(int? itemid, Doctor doctors, List<Address> addresses)
 		{
+			if (doctors.SpecialityID == null)
+			{
+				ModelState.AddModelError("Doctors.SpecialityID", "Specialty is required");
+			}
+
 			if (!ModelState.IsValid || _context.Doctors == null || Doctors == null)
 			{
 				return Page();

@@ -11,13 +11,19 @@
 	<thead>
 		<tr>
 			<th>
-				@Html.DisplayNameFor(model => model.ReferralLetters[0].ID)
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].Id)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].CreatedDateTime)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].PtAccNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].DrFName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].DrLName)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].FileName)
@@ -31,16 +37,22 @@
 			{
 				<tr>
 					<td>
-						@Html.DisplayFor(item => letter.ID)
+						@Html.DisplayFor(item => letter.Id)
 					</td>
 					<td>
-						@Html.DisplayFor(item => letter.CreatedDateTime.ToString("yyyy - MM - dd"))
-					</td>
-					<td>
-						@Html.DisplayFor(item => letter.FileName)
+						@(letter.CreatedDateTime.ToString("yyyy - MM - dd"))
 					</td>
 					<td>
 						@Html.DisplayFor(item => letter.PtAccNumber)
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.DrFName)
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.DrLName)
+					</td>
+					<td>
+						@Html.DisplayFor(item => letter.FileName)
 					</td>
 				</tr>
 			}

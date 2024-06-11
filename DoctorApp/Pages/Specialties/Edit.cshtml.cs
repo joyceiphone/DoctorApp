@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DoctorApp.Models;
 using DoctorApp.Data;
 using Microsoft.EntityFrameworkCore;
+using DoctorApp.Utilities;
+using System.Text.RegularExpressions;
 
 namespace DoctorApp.Pages.Specialties
 {
@@ -40,13 +42,23 @@ namespace DoctorApp.Pages.Specialties
 			}
 
 			var existingSpecialty = await _context.Specialties
-				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName))
+				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName) & s.IsActive)
 				.FirstOrDefaultAsync();
 
 			if (existingSpecialty != null)
 			{
 				ModelState.AddModelError("Specialties.SpecialityName", "Specialty Name already exists");
 				return Page();
+			}
+
+
+			Specialties.SpecialityName = StringExtensions.
+				CapitalizeFirstLetter(Specialties.SpecialityName).Trim();
+
+			if (Specialties.SpecialityName.ToUpper() == "ENT")
+			{
+				Specialties.SpecialityName = StringExtensions.CapitalizeLetters
+					(Specialties.SpecialityName);
 			}
 
 			Specialties.ModifiedDateTime = DateTime.Now;
