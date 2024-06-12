@@ -34,7 +34,7 @@ namespace DoctorApp.Pages.Specialties
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync(int itemId)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -45,15 +45,14 @@ namespace DoctorApp.Pages.Specialties
 				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName) & s.IsActive)
 				.FirstOrDefaultAsync();
 
-			if (existingSpecialty != null)
+			if (existingSpecialty != null & existingSpecialty.Id != itemId)
 			{
 				ModelState.AddModelError("Specialties.SpecialityName", "Specialty Name already exists");
 				return Page();
 			}
 
 
-			Specialties.SpecialityName = StringExtensions.
-				CapitalizeFirstLetter(Specialties.SpecialityName).Trim();
+			Specialties.SpecialityName = Specialties.SpecialityName.Trim();
 
 			if (Specialties.SpecialityName.ToUpper() == "ENT")
 			{
