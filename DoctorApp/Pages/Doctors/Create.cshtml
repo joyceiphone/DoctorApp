@@ -225,6 +225,46 @@
 					event.preventDefault();
 				}
 			})
+
+			$(document).on('input', 'input[id^="Addresses_"][id$="__ZipCode"]', function () {
+				var id = $(this).attr('id');
+				var match = id.match(/Addresses_(\d+)__ZipCode/);
+
+				if (match) {
+					var index = match[1];
+					console.log('ZipCode changed at index: ' + index);
+					var zipCode = $(this).val();
+
+					//getCityAndStateFromZipCode(zipCode, index);
+
+					console.log('ZIP Code value:', zipCode);
+				} else {
+					console.log('No match found.');
+				}
+			});
+			
+			function getCityAndStateFromZipCode(zipcode, index) {
+				$.ajax({
+					url: '@Url.Page("/Doctors/Create", "ValidateAddress")',
+					method: 'GET',
+					data: { zipCode: zipcode },
+					success: function (response) {
+						if (response) {
+							console.log('City:', response.city);
+							console.log('State:', response.state);
+
+							//$('#Addresses_' + index + '__City').val(response.city);
+							//$('#Addresses_' + index + '__State').val(response.state);
+						} else {
+							console.log('No city/state found for the given ZIP Code.');
+						}
+					},
+					error: function (xhr, status, error) {
+						console.log(xhr.responseText);
+						alert('Error occurred while fetching data.');
+					}
+				});
+			}
 		})
 	</script>
 }

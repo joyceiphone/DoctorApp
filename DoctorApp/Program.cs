@@ -5,8 +5,11 @@ using PdfSharp.Fonts;
 using Microsoft.AspNetCore.Identity;
 using DoctorApp.Models;
 using System;
+using PdfSharp.Charting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient();
 
 // Load appsettings.<environment>.json
 builder.Configuration

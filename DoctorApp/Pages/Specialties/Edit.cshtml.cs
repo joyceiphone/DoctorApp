@@ -45,7 +45,7 @@ namespace DoctorApp.Pages.Specialties
 				.Where(s => EF.Functions.Like(s.SpecialityName, Specialties.SpecialityName) & s.IsActive)
 				.FirstOrDefaultAsync();
 
-			if (existingSpecialty != null & existingSpecialty.Id != itemId)
+			if (existingSpecialty != null && existingSpecialty.Id != itemId)
 			{
 				ModelState.AddModelError("Specialties.SpecialityName", "Specialty Name already exists");
 				return Page();
