@@ -20,22 +20,22 @@
 	</div>
 
 	<div>
-		<table class="table table-success table-striped table-responsive table-hover full-width-table">
+		<table id="example" data-sortable="true" class="table table-striped table-responsive table-hover full-width-table">
 			<thead>
 				<tr>
-					<th>
+					<th data-field="Id" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].Id)
 					</th>
 					<th>
 						CheckBox
 					</th>
-					<th>
+					<th data-field="DrFName" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].DrFName)
 					</th>
-					<th>
+					<th data-field="DrLName" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].DrLName)
 					</th>
-					<th>
+					<th data-field="Specialty" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].Specialty)
 					</th>
 					<th>
@@ -130,7 +130,8 @@
 				setTimeout(() => {
 					$('#printModal').modal('hide');
 				}, 1000);
-			})
+			}),
+			$('#example').bootstrapTable();
 		})
 	</script>
 }

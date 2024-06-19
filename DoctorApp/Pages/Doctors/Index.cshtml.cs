@@ -65,7 +65,8 @@ namespace DoctorApp.Pages.Doctors
 		public async Task OnGetAsync()
 		{
 
-			Options = await _context.Specialties.Where(s=>s.IsActive).Select(a =>
+			Options = await _context.Specialties.Where(s=>s.IsActive).
+								OrderBy(s=>s.SpecialityName).Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
@@ -88,7 +89,8 @@ namespace DoctorApp.Pages.Doctors
 
 		public async Task<IActionResult> OnPost(string command)
 		{
-			Options = await _context.Specialties.Where(s=>s.IsActive).Select(a =>
+			Options = await _context.Specialties.Where(s=>s.IsActive).
+								OrderBy(s => s.SpecialityName).Select(a =>
 								  new SelectListItem
 								  {
 									  Value = a.Id.ToString(),
