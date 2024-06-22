@@ -185,16 +185,10 @@ namespace DoctorApp.Pages.Doctors
 					string destinationFileName = Path.GetRandomFileName();
 					destinationFileName = Path.ChangeExtension(destinationFileName, "pdf");
 					destinationFileName = DateTime.Now.ToString("yyMMddHHmmssfff") + destinationFileName;
+					int count = 0;
 
-					foreach (var item in checkedItems)
+					while (count < checkedItems.Count())
 					{
-						var newReferralLetter = new ReferralLetter { DoctorID = item.Id };
-						newReferralLetter.DoctorID = item.Id;
-						newReferralLetter.FileName = destinationFileName;
-						newReferralLetter.PtAccNumber = PtAccNum.Trim();
-
-						ReferralLetters.Add(newReferralLetter);
-
 						// Create an empty page in this document.
 						var page = document.AddPage();
 						//page.Size = PageSize.Letter;
@@ -243,19 +237,37 @@ namespace DoctorApp.Pages.Doctors
 
 						var bodyFont = new XFont("Times New Roman", 16, XFontStyleEx.Bold);
 
-						gfx.DrawString($"Specialty: {item.SpecialityName}", bodyFont, XBrushes.Black, new XPoint(60, y));
-						y += 40;
-						gfx.DrawString($"{item.DrFName} {item.DrLName} MD", bodyFont, XBrushes.Black, new XPoint(60, y));
-						y += 40;
-
-						if(item.Addresses != null )
+						for (int i = 0; i < 3 && i + count < checkedItems.Count(); i++)
 						{
-							foreach (var address in item.Addresses)
+							gfx.DrawString($"Specialty: {checkedItems[count + i].SpecialityName}", bodyFont, XBrushes.Black, new XPoint(60, y));
+							y += 40;
+							gfx.DrawString($"{checkedItems[count + i].DrFName} {checkedItems[count+i].DrLName} MD", bodyFont, XBrushes.Black, new XPoint(60, y));
+							y += 40;
+
+							if (checkedItems[count + i].Addresses != null)
 							{
-								gfx.DrawString($"{address.Street1} {address.Street2} {address.City} {address.State} {address.ZipCode} {address.TelAddress}", bodyFont, XBrushes.Black, new XPoint(60, y));
+								foreach (var address in checkedItems[count + i].Addresses)
+								{
+									gfx.DrawString($"{address.Street1} {address.Street2} {address.City} {address.State} {address.ZipCode} {address.TelAddress}", bodyFont, XBrushes.Black, new XPoint(60, y));
+									y += 15;
+								}
+							}
+
+							if(i % 3 != 2 && count + i + 1 <  checkedItems.Count())
+							{
+								gfx.DrawLine(lineBlack, startX, y, endX, y);
+
 								y += 40;
 							}
+
+							var newReferralLetter = new ReferralLetter { DoctorID = checkedItems[count + i].Id };
+							newReferralLetter.DoctorID = checkedItems[count + i].Id;
+							newReferralLetter.FileName = destinationFileName;
+							newReferralLetter.PtAccNumber = PtAccNum.Trim();
+
+							ReferralLetters.Add(newReferralLetter);
 						}
+						count += 3;
 					};
 
 					string tempPath = Path.Combine(Path.GetTempPath(), "testPdfSharp.pdf");
@@ -272,7 +284,7 @@ namespace DoctorApp.Pages.Doctors
 						// Return the PDF file as a FileResult.
 						return File(stream.ToArray(), "application/pdf", destinationFileName);
 					}
-					
+
 				}
 			}
 

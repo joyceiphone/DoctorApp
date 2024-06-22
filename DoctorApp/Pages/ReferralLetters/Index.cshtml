@@ -19,11 +19,11 @@
 			<th data-field="PtAccNumber" data-sortable="true">
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].PtAccNumber)
 			</th>
-			<th data-field="DrFName" data-sortable="true">
-				@Html.DisplayNameFor(model => model.ReferralLetters[0].DrFName)
-			</th>
 			<th data-field="DrLName" data-sortable="true">
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].DrLName)
+			</th>
+			<th data-field="DrFName" data-sortable="true">
+				@Html.DisplayNameFor(model => model.ReferralLetters[0].DrFName)
 			</th>
 			<th data-field="FileName" data-sortable="true">
 				@Html.DisplayNameFor(model => model.ReferralLetters[0].FileName)
@@ -40,16 +40,16 @@
 						@Html.DisplayFor(item => letter.Id)
 					</td>
 					<td>
-						@(letter.CreatedDateTime.ToString("yyyy - MM - dd"))
+						@(letter.CreatedDateTime.ToString("yyyy - MM - dd hh:mm:ss tt"))
 					</td>
 					<td>
 						@Html.DisplayFor(item => letter.PtAccNumber)
 					</td>
 					<td>
-						@Html.DisplayFor(item => letter.DrFName)
+						@Html.DisplayFor(item => letter.DrLName)
 					</td>
 					<td>
-						@Html.DisplayFor(item => letter.DrLName)
+						@Html.DisplayFor(item => letter.DrFName)
 					</td>
 					<td>
 						@Html.DisplayFor(item => letter.FileName)
