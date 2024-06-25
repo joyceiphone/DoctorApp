@@ -40,7 +40,7 @@
 						@Html.DisplayFor(item => letter.Id)
 					</td>
 					<td>
-						@(letter.CreatedDateTime.ToString("yyyy - MM - dd hh:mm:ss tt"))
+						@(letter.CreatedDateTime.ToLocalTime().ToString("yyyy - MM - dd hh:mm:ss tt"))
 					</td>
 					<td>
 						@Html.DisplayFor(item => letter.PtAccNumber)

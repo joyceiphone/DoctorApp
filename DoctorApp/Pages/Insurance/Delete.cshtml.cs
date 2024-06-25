@@ -45,7 +45,7 @@ namespace DoctorApp.Pages.Insurance
 			}
 
 			insurance.IsActive = false;
-			insurance.DeletedDateTime = DateTime.Now;
+			insurance.DeletedDateTime = DateTime.UtcNow;
 			insurance.DeletedBy = "DefaultUser";
 
 			InsuranceCompanies = insurance;

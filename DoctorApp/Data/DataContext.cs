@@ -38,27 +38,27 @@ namespace DoctorApp.Data
 
 			modelBuilder.Entity<Doctor>()
 				.Property(s => s.CreatedDateTime)
-				.HasDefaultValueSql("GETDATE()");
+				.HasDefaultValueSql("GETUTCDATE()");
 
 			modelBuilder.Entity<Address>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
+					.HasDefaultValueSql("GETUTCDATE()");
 
 			modelBuilder.Entity<InsuranceCompany>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
+					.HasDefaultValueSql("GETUTCDATE()");
 
 			modelBuilder.Entity<InsuranceCompany_Doctor>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
+					.HasDefaultValueSql("GETUTCDATE()");
 
 			modelBuilder.Entity<ReferralLetter>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
+					.HasDefaultValueSql("GETUTCDATE()");
 
 			modelBuilder.Entity<Specialty>()
 					.Property(s => s.CreatedDateTime)
-					.HasDefaultValueSql("GETDATE()");
+					.HasDefaultValueSql("GETUTCDATE()");
 
 			//one to many
 			modelBuilder.Entity<Doctor>()

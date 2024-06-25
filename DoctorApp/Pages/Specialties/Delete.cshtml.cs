@@ -49,7 +49,7 @@ namespace DoctorApp.Pages.Specialties
 
 			specialty.IsActive = false;
 			specialty.DeletedBy = "DefaultUser";
-			specialty.DeletedDateTime = DateTime.Now;
+			specialty.DeletedDateTime = DateTime.UtcNow;
 
 			Specialties = specialty;
 			_context.Update(specialty);

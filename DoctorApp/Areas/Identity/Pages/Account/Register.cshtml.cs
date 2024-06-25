@@ -133,7 +133,7 @@ namespace DoctorApp.Areas.Identity.Pages.Account
                     PhoneNumber = Input.PhoneNumber,
                     Email = Input.Email,
                     Address = Input.Address,
-                    CreatedDateTime = DateTime.Now,
+                    CreatedDateTime = DateTime.UtcNow,
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

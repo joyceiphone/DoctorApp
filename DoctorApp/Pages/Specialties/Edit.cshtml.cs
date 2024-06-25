@@ -60,7 +60,7 @@ namespace DoctorApp.Pages.Specialties
 					(Specialties.SpecialityName);
 			}
 
-			Specialties.ModifiedDateTime = DateTime.Now;
+			Specialties.ModifiedDateTime = DateTime.UtcNow;
 			Specialties.ModifiedBy = "test";
 			_context.Specialties.Update(Specialties);
 			await _context.SaveChangesAsync();

@@ -134,7 +134,7 @@ namespace DoctorApp.Pages.Doctors
 				return Page();
 			}
 
-			doctors.ModifiedDateTime = DateTime.Now;
+			doctors.ModifiedDateTime = DateTime.UtcNow;
 			doctors.ModifiedBy = "DefaultUser";
 			_context.Doctors.Update(doctors);
 
@@ -160,7 +160,7 @@ namespace DoctorApp.Pages.Doctors
 				if (rowToDelete != null)
 				{
 					rowToDelete.IsActive = false;
-					rowToDelete.DeletedDateTime = DateTime.Now;
+					rowToDelete.DeletedDateTime = DateTime.UtcNow;
 					rowToDelete.DeletedBy = "DefaultUser";
 					_context.InsuranceCompanies_Doctors.Update(rowToDelete);
 				}
@@ -200,7 +200,7 @@ namespace DoctorApp.Pages.Doctors
 					{
 						address.DoctorId = Doctors.Id;
 						address.Id = existingAddress.Id;
-						address.ModifiedDateTime = DateTime.Now;
+						address.ModifiedDateTime = DateTime.UtcNow;
 						address.ModifiedBy = "DefaultUser";
 						_context.Addresses.Update(address);
 					}
@@ -223,7 +223,7 @@ namespace DoctorApp.Pages.Doctors
 						if (addressToDelete != null)
 						{
 							addressToDelete.IsActive = false;
-							addressToDelete.DeletedDateTime = DateTime.Now;
+							addressToDelete.DeletedDateTime = DateTime.UtcNow;
 							addressToDelete.DeletedBy = "DefaultUser";
 							_context.Update(addressToDelete);
 						}

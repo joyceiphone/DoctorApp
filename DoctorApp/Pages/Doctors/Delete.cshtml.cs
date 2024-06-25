@@ -75,7 +75,7 @@ namespace DoctorApp.Pages.Doctors
 				return NotFound();
 			}
 			doctor.IsActive = false;
-			doctor.DeletedDateTime = DateTime.Now;
+			doctor.DeletedDateTime = DateTime.UtcNow;
 			doctor.DeletedBy = "DefaultUser";
 			Doctors = doctor;
 			_context.Doctors.Update(Doctors);
@@ -89,7 +89,7 @@ namespace DoctorApp.Pages.Doctors
 				foreach(var companyDoctor in insuranceCompanyDoctors)
 				{
 					companyDoctor.IsActive = false;
-					companyDoctor.DeletedDateTime = DateTime.Now;
+					companyDoctor.DeletedDateTime = DateTime.UtcNow;
 					companyDoctor.DeletedBy = "DefaultUser";
 				}
 				_context.InsuranceCompanies_Doctors.UpdateRange(insuranceCompanyDoctors);
@@ -102,7 +102,7 @@ namespace DoctorApp.Pages.Doctors
 			{
 				foreach (var address in Addresses)
 				{
-					address.DeletedDateTime = DateTime.Now;
+					address.DeletedDateTime = DateTime.UtcNow;
 					address.DeletedBy = "DefaultUser";
 					address.IsActive = false;
 					_context.Addresses.Update(address);

@@ -50,7 +50,7 @@ namespace DoctorApp.Pages.Insurance
 				return Page();
 			}
 
-			InsuranceCompanies.ModifiedDateTime = DateTime.Now;
+			InsuranceCompanies.ModifiedDateTime = DateTime.UtcNow;
 			InsuranceCompanies.ModifiedBy = "test";
 			InsuranceCompanies.CompanyName = StringExtensions
 				.CapitalizeLetters(InsuranceCompanies.CompanyName);

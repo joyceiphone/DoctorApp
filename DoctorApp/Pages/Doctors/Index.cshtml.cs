@@ -184,7 +184,7 @@ namespace DoctorApp.Pages.Doctors
 
 					string destinationFileName = Path.GetRandomFileName();
 					destinationFileName = Path.ChangeExtension(destinationFileName, "pdf");
-					destinationFileName = DateTime.Now.ToString("yyMMddHHmmssfff") + destinationFileName;
+					destinationFileName = DateTime.UtcNow.ToLocalTime().ToString("yyMMddHHmmssfff") + destinationFileName;
 					int count = 0;
 
 					while (count < checkedItems.Count())
