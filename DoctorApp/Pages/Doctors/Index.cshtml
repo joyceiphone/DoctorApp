@@ -29,11 +29,11 @@
 					<th>
 						CheckBox
 					</th>
-					<th data-field="DrFName" data-sortable="true">
-						@Html.DisplayNameFor(model => model.Doctors[0].DrFName)
-					</th>
 					<th data-field="DrLName" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].DrLName)
+					</th>
+					<th data-field="DrFName" data-sortable="true">
+						@Html.DisplayNameFor(model => model.Doctors[0].DrFName)
 					</th>
 					<th data-field="Specialty" data-sortable="true">
 						@Html.DisplayNameFor(model => model.Doctors[0].Specialty)
@@ -59,10 +59,10 @@
 								</div>
 							</td>
 							<td>
-								@Html.DisplayFor(item => doctor.DrFName)
+								@Html.DisplayFor(item => doctor.DrLName)
 							</td>
 							<td>
-								@Html.DisplayFor(item => doctor.DrLName)
+								@Html.DisplayFor(item => doctor.DrFName)
 							</td>
 							<td>
 								@Html.DisplayFor(item => doctor.SpecialityName)
