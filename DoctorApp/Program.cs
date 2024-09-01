@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using DoctorApp.Models;
 using System;
 using PdfSharp.Charting;
+using DoctorApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton(new FhirService("https://fhirsandbox.healthit.gov/open/r4/fhir"));
 
 // Load appsettings.<environment>.json
 builder.Configuration

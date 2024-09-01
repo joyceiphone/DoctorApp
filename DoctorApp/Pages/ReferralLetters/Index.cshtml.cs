@@ -22,7 +22,7 @@ namespace DoctorApp.Pages.ReferralLetters
 			{
 				ReferralLetters = await (from t1 in _context.ReferralLetters
 										 join t2 in _context.Doctors on t1.DoctorID equals t2.Id
-										 where t1.IsActive & t2.IsActive
+										 where t1.IsActive
 										 select new JoinedResultModel
 										 {
 											 Id = t1.ID,
